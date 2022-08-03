@@ -206,12 +206,13 @@ void local_search_1layer(unordered_map<string, double> &neighborhood, vector<vec
 	a_all_next.clear();
 }
 
-// ×Ö·û´®ÇÐÆ¬ºËÐÄ´úÂë
+//split string to int
+//intput: current_string, cut_string, output: int_vector
 void splitStr(const string& str, vector<int>& arr, const string& cut)
 {
-	// str: ÐèÒªÇÐ¸îµÄ×Ö·û´®
-	// arr: ÇÐ¸îºóµÄ×Ö·û´®Êý×é´æ·ÅÎ»ÖÃ
-	// cut£ºÐèÒªÇÐ¸îµÄ·ûºÅ
+	// str: current_string
+	// arr: output
+	// cut; cut_string
 	string::size_type pos1, pos2;
 	pos2 = str.find(cut);
 	pos1 = 0;
@@ -673,6 +674,7 @@ vector<string> localsearch_gtoc9_MTS_changetime_pool(std::vector<vector<int>>& X
 
 	return local_field;
 }
+
 
 
 

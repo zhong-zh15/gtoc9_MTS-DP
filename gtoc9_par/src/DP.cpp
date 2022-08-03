@@ -739,7 +739,7 @@ double DP_optimization_all_mission(const vector<vector<int>>& sequence, std::vec
 {
 	//  input parameter
 	const double step_init = 6.0;   // mission tf step days
-	const int num_step_init = 10;  // mission tf step number
+	const int num_step_init = 10;   // mission tf step number
 	const double t_step_tf = 6.0;   // tf step days
 
 	// indirect parameter (do not change)
@@ -1102,6 +1102,4 @@ double DP_optimization_all_mission(const vector<vector<int>>& sequence, std::vec
 	}
 
 	return opt_min_each_mission + 55.0 * mission_number;
-
-	/*return  0.0;*/
 }
