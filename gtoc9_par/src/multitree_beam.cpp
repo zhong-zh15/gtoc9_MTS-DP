@@ -3,16 +3,15 @@
 #include <cassert>
 #include <numeric>
 
-//#include "ACO_gtoc9.h"
 #include "DP.h"
 
 
-
-
+// g function
+// only expand the tree with the lowest g score (not used in GTOC9)
 void G_Function(const TNC& tnc, int& counter)
 {
 	double g_temp[TreeNum]; double g_min = 1.e20;  //扩展速度增量最小的那颗树
-												   // g function
+												  
 	for (int i = 0; i < TreeNum; i++)
 	{
 		g_temp[i] = tnc.op_index_.m_mission[i];  //test 1.mass() 2.time 3.dv
@@ -21,13 +20,8 @@ void G_Function(const TNC& tnc, int& counter)
 		tnc.tnc_[i]->return_node_sequence(solution_one_node);
 		Solution_one temp;
 		tnc.tnc_[i]->getback_problem(solution_one_node, temp);
-		//g_temp[i] = (tnc.op_index_.t_mission[i][1] - tnc.op_index_.t_mission[i][0]) / temp.debris_sequence_.size();
+		
 		g_temp[i] = tnc.op_index_.dv_mission[i] / (temp.debris_sequence_.size());
-
-		//g_temp[i] = (temp.debris_sequence_.size());
-
-		//g_temp[i] = tnc.op_index_.m_mission[i];
-
 		if (g_temp[i] < g_min) {
 			g_min = g_temp[i]; counter = i;
 		}
@@ -37,44 +31,35 @@ void G_Function(const TNC& tnc, int& counter)
 /****************************************************************************
 * 函数名   : SortNode(int a,int b)
 * 功  能   : 排序函数：根据起始节点编号进行h指标从大到小排序
-* 输 入    : 1.节点编号 2.节点编号
+* 输 入    : 1.TNC a 2.TNC b
 ****************************************************************************/
 inline bool MultiTree::SortTNC(const TNC& a, const TNC& b)
 {
 	double p = 1.0e-4;
-
 	double h_a, h_b;
 	double dt_a = 0.0, dt_b=0.0;
+
+	if (a.op_index_.removal_num_ == 123)
+	{
+		h_a = a.op_index_.cost_;
+		h_b = b.op_index_.cost_;
+		return  h_a < h_b;
+	}
+
 	for (int i = 0; i < TreeNum; i++)
 	{
 		dt_a += a.op_index_.t_mission[i][1] - a.op_index_.t_mission[i][0];
 		dt_b += b.op_index_.t_mission[i][1] - b.op_index_.t_mission[i][0];
 	}
-	if (a.op_index_.removal_num_ == 123)
-	{
-		h_a = a.op_index_.cost_ ;
-		h_b = b.op_index_.cost_ ;
-		return  h_a < h_b;
-	}
-
-	// h_a = a.op_index_.cost_ / pow(2947.0 - dt_a, p);
-	// h_b = b.op_index_.cost_ / pow(2947.0 - dt_b, p);
-
-	//double dv_a = accumulate(a.op_index_.dv_mission, a.op_index_.dv_mission + TreeNum, 0.0);
-	//double dv_b = accumulate(b.op_index_.dv_mission, b.op_index_.dv_mission + TreeNum, 0.0);
-	
 	h_a = a.op_index_.cost_ * pow( dt_a, p);
 	h_b = b.op_index_.cost_ * pow( dt_b, p);
 
-	//h_a = dv_a * pow(dt_a, p);
-	//h_b = dv_b * pow(dt_b, p);
-	
 	return  h_a < h_b;
 }
 
 /****************************************************************************
 * 函数名   : EqualTNC(const TNC& a, const TNC& b)
-* 功  能   : 判断两个tnc序列是否相等，速度增量极其接近
+* 功  能   : 判断两个tnc序列是否相等
 ****************************************************************************/
 inline bool MultiTree::EqualTNC(const TNC& a, const TNC& b)
 {
@@ -89,28 +74,25 @@ inline bool MultiTree::EqualTNC(const TNC& a, const TNC& b)
 			vector<Node*> solution_one_node_a, solution_one_node_b;
 			a.tnc_[i]->return_node_sequence(solution_one_node_a);             //返回节点序列，不包含根节点
 			a.tnc_[i]->getback_problem(solution_one_node_a, sa.solution_[i]);//回溯函数，返回一个节点直至根节点的信息
-			//afirst += sa.solution_[i].debris_sequence_[0];
+		
 			a_sequence = sa.solution_[i].debris_sequence_;
 			b.tnc_[i]->return_node_sequence(solution_one_node_b);             //返回节点序列，不包含根节点
 			b.tnc_[i]->getback_problem(solution_one_node_b, sb.solution_[i]);//回溯函数，返回一个节点直至根节点的信息
-			//bfirst += sb.solution_[i].debris_sequence_[0];
+			
 			b_sequence = sb.solution_[i].debris_sequence_;
 			if (a_sequence != b_sequence)
 			{
 				return false;
 			}
 		}
-
 		return true;
-
 	}
-	
 	return  false;
 }
 
 /****************************************************************************
 * 函数名   : void MultiTree::unique_remove(std::vector<TNC>& expandinglist)
-* 功  能   : 去重函数(之前已排序过，得到前W个是去重的)
+* 功  能   : 去重函数(输入是已排序过的，输出是前W个是去重的)
 ****************************************************************************/
 void MultiTree::unique_remove(std::vector<TNC>& expandinglist)
 {
@@ -144,7 +126,7 @@ void MultiTree::beam_discard(std::vector<TNC>& expandinglist)
 }
 /****************************************************************************
 * 函数名   : init_max_dv(vector<vector<Node*>> & init_expand_nodes, int tree_id, int *visited)
-* 功  能   : 根据速度增量生成最大的n个
+* 功  能   : 根据RAAN漂移最小的n个
 * 输  入   : init_expand_nodes 每一层的节点，visited 表示该节点是否位于这n个之列 0为不在，1在, n为指标之列
 ****************************************************************************/
 void init_max_dv(vector<Node*> & init_expand_node, int *visited, int n)
@@ -249,11 +231,7 @@ void MultiTree::Initialize(std::vector<TNC>& expandinglist)
 		new_expand_nodes.clear();
 	}
 
-	//test JPL initial
 	vector<Node*> temp;
-	// vector<int> s = { 23,19,72,108,84,101,49,86,33,44 };
-	// vector<int> s = { 120,76,41,10,81,36,5,97,13,109 };
-
 	vector<int> s = { 103,111,7,8,75,31,101,97,102};
 	for (int i = 0; i < TreeNum; i++)
 	{
@@ -307,17 +285,15 @@ inline void Node::getback_problem(vector<Node*>& solution_one_node, Solution_one
 	//最后一个是最开始的节点
 	for (int i = solution_one_node.size() - 1; i > -1; i--)
 	{
-		if (i == solution_one_node.size() - 1) //最初始节点，只有初始时刻，没有dv
-		{
-			temp_solution_one.debris_sequence_.push_back(solution_one_node[i]->problem_.next_debris_);
-		}
-		else
-		{
-			temp_solution_one.debris_sequence_.push_back(solution_one_node[i]->problem_.next_debris_);
-		}
+		temp_solution_one.debris_sequence_.push_back(solution_one_node[i]->problem_.next_debris_);
+
 	}
 }
 
+/****************************************************************************
+* 函数名   : Node::return_node_sequence(std::vector<Node*>& solution_one_node)
+* 功  能   : 返回清除序列
+****************************************************************************/
 inline void Node::return_node_sequence(std::vector<Node*>& solution_one_node)
 {
 	for (Node* tempnode = this; tempnode->parent_; tempnode = tempnode->parent_)
@@ -326,56 +302,10 @@ inline void Node::return_node_sequence(std::vector<Node*>& solution_one_node)
 	}
 }
 
-/****************************************************************************
-* 函数名   : Tree::getback(Node* node)
-* 功  能   : 回溯函数，返回一个节点直至根节点的信息
-****************************************************************************/
-//void Node::nlopt2solution(Solution_one &temp, double & dv)
-//{
-//	int debrisOrder[DebrisNum];
-//	copy(temp.debris_sequence_.begin(), temp.debris_sequence_.end(), debrisOrder);
-//
-//	//TODO：可对初始时刻进行遍历，其余时间可由estimate给出
-//	dv = estimate_T(temp.debris_sequence_, temp.t_sequence_, 0.0); 
-//
-//	int iter = 1000* temp.t_sequence_.size();
-//	
-//	double  maxdv = 3454.0;
-//	if (temp.debris_sequence_.size() > 1 && dv > maxdv)
-//		nloptmain(nlopt_tstf, debrisOrder, temp.t_sequence_, dv, iter);
-//
-//}
-
-inline void Node::update_node(std::vector<Node*> &solution_one_node, Solution_one &temp)
-{
-	for (int i = solution_one_node.size() - 1; i > -1; i--) //反向循环，从根节点开始
-	{
-		int j = solution_one_node.size() - 1 - i; //表示对称的位置，即根节点时表示为0
-		Node_problem & now_node_problem = solution_one_node[i]->problem_; //当前节点的问题结构体引用
-	}
-}
-
-/****************************************************************************
-* 函数名   : Node::node_nlopt()
-* 功  能   : 使用nlopt优化所有时间
-****************************************************************************/
-//double Node::node_nlopt()
-//{
-//	std::vector<Node*> solution_one_node; 
-//	return_node_sequence(solution_one_node);               //得到新序列
-//	Solution_one temp;
-//	getback_problem(solution_one_node, temp);//回溯得到当前结果，只有序列
-//	double dv;
-//	nlopt2solution(temp,dv);                                  //优化
-//
-//	return  dv;
-//}
-
-
 
 /****************************************************************************
 * 函数名   : Remove()
-* 功  能   : 删除一个节点及其父节点，前提是该节点没有子节点
+* 功  能   : 删除一个节点及其父节点，前提是该节点没有子节点；采用递归方式
 ****************************************************************************/
 inline void MultiTree::Remove(Node* a)
 {
@@ -385,7 +315,7 @@ inline void MultiTree::Remove(Node* a)
 	{
 		Node* tempfaternode = tempnode->parent_;
 
-		if (tempnode->child_.size() == 0 && tempnode->inTNCcounter_ == 0 && tempnode->parent_)
+		if (tempnode->child_.size() == 0 && tempnode->inTNCcounter_ == 0 && tempnode->parent_) //根节点不会删除
 		{
 			delete tempnode;
 		}
@@ -397,6 +327,7 @@ inline void MultiTree::Remove(Node* a)
 	}
 }
 
+//遍历树中所有节点，返回底部需要删除的节点
 void MultiTree::Traverse(Node* node, vector<Node*>& last_layer_nodes)
 {
 	if (node->child_.size() == 0 && node->inTNCcounter_ == 0)
@@ -411,6 +342,7 @@ void MultiTree::Traverse(Node* node, vector<Node*>& last_layer_nodes)
 	}
 }
 
+//删除树中所有需要删除（冗余）的节点
 void MultiTree::delete_redundant_nodes()
 {
 #pragma omp parallel for schedule(dynamic)
@@ -427,7 +359,7 @@ void MultiTree::delete_redundant_nodes()
 
 /****************************************************************************
 * 函数名   : GetBack()
-* 功  能   : 返回TNC中所有节点的全部信息
+* 功  能   : 返回一个TNC中所有节点的全部信息
 ****************************************************************************/
 Solution TNC::GetBack()
 {
@@ -443,40 +375,19 @@ Solution TNC::GetBack()
 	}
 
 	vector<vector<double>> time_sequence, dv_sequence;
-	//temp.cost_ = DP_optimization_total(debris_sequence, time_sequence, dv_sequence);
-	temp.cost_ = DP_optimization_all_mission(debris_sequence, time_sequence, dv_sequence,1.0e10);
-	// vector<double> T_test;
-	// for (auto a : time_sequence)
-	// 	for (auto b : a) T_test.push_back(b);
-	// temp.cost_ = time_optimization_NLOPT(T_test, debris_sequence);
+	
+	temp.cost_ = DP_optimization_all_mission(debris_sequence, time_sequence, dv_sequence, 1.0e10);
 
-	// int counter = 0; 
-	// for(int i =0; i< time_sequence.size(); i++)
-	// {
-	// 	for (int j = 0; j < time_sequence[i].size(); j++)
-	// 	{
-	// 		time_sequence[i][j] = T_test[counter];
-	// 		counter++;
-	// 	}
-	// }
-	
-	
-	//op_index_.cost_ = DP_optimization_total(debris_sequence, time_sequence, dv_sequence);
 	if (time_sequence.size() > 0)
 	{
 		for (int i = 0; i < TreeNum; i++)
 		{
-			//op_index_.t_mission[i][0] = time_sequence[i][0];
-			//op_index_.t_mission[i][1] = time_sequence[i].back();
-			//op_index_.dv_mission[i] = accumulate(dv_sequence[i].begin(), dv_sequence[i].end(), 0.0);
-			//mp_calc(dv_sequence[i], op_index_.m_mission[i]);
 			temp.solution_[i].debris_sequence_ = debris_sequence[i];
 			temp.solution_[i].t_sequence_ = time_sequence[i];
 			temp.solution_[i].dv_sequence_ = dv_sequence[i];
 		}
 	}
-	
-	//temp.cost_ = op_index_.cost_;
+
 	temp.total_removal_num_ = op_index_.removal_num_;
 
 	return temp;
@@ -484,32 +395,13 @@ Solution TNC::GetBack()
 
 /****************************************************************************
 * 函数名   : Calculate_op_index()
-* 功  能   : 计算指标结构体
+* 功  能   : 计算指标（每个任务单独优化时间，划分时间是均分的）
 ****************************************************************************/
 void TNC::Calculate_op_index()
 {
 	//TODO:只需更新新的结果
 	
 	//最优指标
-	//double total_dv = 0.0;
-	//int  total_number = 0;
-	//vector<vector<int>> debris_sequence(TreeNum);
-	//for (int i = 0; i < TreeNum; i++)
-	//{
-	//	std::vector<Node*> solution_one_node;
-	//	tnc_[i]->return_node_sequence(solution_one_node);               //得到新序列
-	//	Solution_one temp;
-	//	tnc_[i]->getback_problem(solution_one_node, temp);              //回溯得到当前结果，只有序列
-	//	total_number += temp.debris_sequence_.size();                   //清理个数
-
-	//	debris_sequence[i] = temp.debris_sequence_;
-	//}
-
-	//vector<vector<double>> time_sequence,dv_sequence;
-	//op_index_.cost_ = DP_optimization_total(debris_sequence, time_sequence, dv_sequence);
-	//op_index_.removal_num_ = total_number;
-
-
 	int missionID = op_index_.expand_mission_ID;
 	std::vector<Node*> solution_one_node;
 	tnc_[missionID]->return_node_sequence(solution_one_node);               //得到新序列
@@ -532,7 +424,6 @@ void TNC::Calculate_op_index()
 	{
 		int i = missionID;
 		{
-			//op_index_.t_mission[i][0] = time_sequence[0];
 			op_index_.t_mission[i][1] = time_sequence.back();
 			op_index_.dv_mission[i] = accumulate(dv_sequence.begin(), dv_sequence.end(), 0.0);
 			op_index_.m_mission[i] = DP_result.m0;
@@ -550,7 +441,10 @@ void TNC::Calculate_op_index()
 
 }
 
-
+/****************************************************************************
+* 函数名   : Calculate_op_index_change_time()
+* 功  能   : 计算指标（所有任务一起优化时间）
+****************************************************************************/
 void TNC::Calculate_op_index_change_time()
 {
 	//最优指标
@@ -636,12 +530,7 @@ std::vector<Node*> Tree::ExpandNode(Node* node, const int* visited, const double
 }
 
 
-/****************************************************************************
-* 函数名   : Expansion_one_TNC(const TNC& tnc, std::vector<TNC>& newTNCs)
-* 功  能   : 扩展一个TNC
-* 输 入    : const TNC& tnc 原TNC
-* 输    出 : std::vector<TNC>& newTNCs  新扩展的tncs
-****************************************************************************/
+//排除掉速度增量太大的节点
 inline  void exclude_maxdv(Node* node, const int* visited, double* dv_debris, double tstart)
 {
 	std::vector<Node*> solution_one_node;
@@ -667,18 +556,6 @@ inline  void exclude_maxdv(Node* node, const int* visited, double* dv_debris, do
 		
 		dv_debris[j] = dvtemp_min;
 	}
-
-	//vector<double> dv_temp(dv_debris, dv_debris+DebrisNum);
-	//sort(dv_temp.begin(), dv_temp.end());
-	//double dv_b_sort = dv_temp[DebrisNum-1];
-
-	//for (int j = 0; j < DebrisNum; j++)
-	//{
-	//	if (dv_debris[j] > dv_b_sort)
-	//	{
-	//		dv_debris[j] = 1.e10;
-	//	}
-	//}
 
 }
 
@@ -847,10 +724,6 @@ void MultiTree::Run()
 
 		Localsearch(expandinglist);
 
-		// if (layer_ == DebrisNum - 2) W_ = 10;
-
-		// if (layer_ == DebrisNum - 1) W_ = 100;
-
 		beam_discard(expandinglist);                    //排序并取前W_个
 
 		delete_redundant_nodes();                       //删除多余的子节点
@@ -859,8 +732,6 @@ void MultiTree::Run()
 
 		if (layer_ == DebrisNum)
 		{
-			//End_pso_optimize(expandinglist);             //最后统一优化时间
-			/*vector<TNC> x;*/
 			RecordAllResult(expandinglist, fout1);			         //记录最好信息
 		}
 	}
@@ -868,6 +739,7 @@ void MultiTree::Run()
 	
 }
 
+//记录每一层中最好的结果
 void MultiTree::RecordBestResult(std::vector<TNC>& expandinglist, std::ofstream& fout0)
 {
 	if (expandinglist.size() > 0)
@@ -954,7 +826,7 @@ void MultiTree::RecordBestResult(std::vector<TNC>& expandinglist, std::ofstream&
 
 }
 
-
+//记录所有可行的结果
 void MultiTree::RecordAllResult(std::vector<TNC>& expandinglist, std::ofstream& fout0)
 {
 
@@ -1028,6 +900,8 @@ void MultiTree::RecordAllResult(std::vector<TNC>& expandinglist, std::ofstream& 
 
 }
 
+
+//根据序列、时刻、速度增量构建TNC
 TNC  MultiTree::TNC_generation_by_nodes(vector<vector<int>> &X, opt_struct & para )
 {
 	Node* tnc_node[TreeNum];
@@ -1097,7 +971,7 @@ TNC  MultiTree::TNC_generation_by_nodes(vector<vector<int>> &X, opt_struct & par
 }
 
 
-
+//局部搜索该层的所有TNC
 void MultiTree::Localsearch(std::vector<TNC>& expandinglist)
 {
 	int length = expandinglist.size();

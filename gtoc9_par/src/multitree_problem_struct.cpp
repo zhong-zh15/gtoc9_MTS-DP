@@ -1,4 +1,4 @@
-#include "problem_struct.h"
+#include "multitree_problem_struct.h"
 
 void Node_problem::operator=(const Node_problem& result)
 {

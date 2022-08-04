@@ -1,13 +1,14 @@
 /****************************************************************************
-* Copyright (C), 2020-2031 清华大学航天航空学院动力学与控制实验室
-* 作者: 张众 zhong-zh19@mails.tsinghua.edu.cn
-*            539977562@qq.com
-* 文件名: multitree_beam.h
-* 内容简述：多树结构的类声明
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*                 539977562@qq.com
+* File: multitree_beam.h
+* Description: The declaration class of MultiTree
 *
-* 文件历史：
-* 版本号     日期         作者       说明
-* 01       2021-05-12    张众      创建文件
+* Log:
+*Version      Date        Author           Description
+* 01        2022-03-15    Zhong Zhang       Create
 ****************************************************************************/
 #ifndef _BEAM_H
 #define _BEAM_H
@@ -21,7 +22,7 @@
 #include <unordered_map>
 
 
-#include "problem_struct.h"
+#include "multitree_problem_struct.h"
 #include "local_search.h"
 
 /****************************************************************************
@@ -84,14 +85,7 @@ public:
 
 	void return_node_sequence(std::vector<Node*>& solution_one_node);            //返回节点序列，不包含根节点
 	void getback_problem(vector<Node*>& solution_one_node, Solution_one & temp_solution_one);        //回溯函数，返回一个节点直至根节点的信息
-	
-	//void nlopt2solution(Solution_one& temp, double& dv);                         //通过nlopt优化时间，并返回至解结构体
-	void update_node(std::vector<Node*> &solution_one_node, Solution_one &temp); //根据解将所有节点的时间和速度增量更新
 
-
-	//void node_pso(Solution_one& temp, double& dv);                               //用于对一条解进行pso的时间优化
-	//double node_nlopt();                                                         //用于对一个解进行nlopt的含初值优化
-	
 };
 
 /****************************************************************************
@@ -282,6 +276,8 @@ public:
 
 	void delete_redundant_nodes();                                       //删除所有多余节点
 };
+
+//G_Function 计算TNC中哪颗树应该被扩展
 void G_Function(const TNC& tnc, int& counter);
 
 #endif

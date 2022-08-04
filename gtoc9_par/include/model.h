@@ -1,39 +1,97 @@
 /****************************************************************************
-* Copyright (C), 2020-2031 清华大学航天航空学院动力学与控制实验室
-* 作者: 张众 zhong-zh19@mails.tsinghua.edu.cn
-*            539977562@qq.com
-* 文件名: model.h
-* 内容简述：用于模型信息
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*               539977562@qq.com
+* File: model.h
+* Description: calcuation J2 perturbed transfer cost
+* (based on Simple ΔV Approximation for Optimization of Debris-to-Debris Transfers,
+*  Hong-Xin Shen and Lorenzo Casalino,
+*  Journal of Spacecraft and Rockets 2021 58:2, 575-580)
 *
-* 文件历史：
-* 版本号     日期         作者       说明
-* 01a       2021-05-15    张众      创建文件
+* Log:
+*Version      Date        Author           Description
+* 01        2022-03-15    Zhong Zhang       Create
 ****************************************************************************/
+
 #ifndef MODEL_H
 #define MODEL_H
 
 #include <vector>
 #include <math.h>
 #include "Constant.h"
-//#include "main.h"
 
-extern double debris_data[123][8];   //全局碎片信息
-extern double domega_debris[123];
+
+//global variable
+extern double debris_data[123][8];   //derbris orbit data
+extern double domega_debris[123];    
 extern double dOmega_debris[123];
-extern double dOmega_debris_notreal[123];
 
-double estimate_T(const std::vector<int>& R, std::vector<double>& T, double initT);
-double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf);
-double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf, int N);
-double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf, double end_epoch, int N);
-double Dv_ij(int i, int j, double ts, double tf);
-double Dv_All(double* T, int* R, int n);
-double Dv_All(const std::vector<double>& T, int* R, int n);
-double Dv_All(const std::vector<double>& T, const std::vector<int>& R, std::vector<double>& dv_sequence);
-double estimate_dv_random(int debris_now, int target, double tnow, double& Ts, double& Tf, double end_epoch, int N);
-double domega(int i);
+/****************************************************************************
+* Function     : domega_init
+* Discription  : calculate omega drift rate of debris
+*                input:
+*					i: debris ID
+*                ouput:
+*					return value:  omega drift rate (unit: rad/s)
+****************************************************************************/
 double domega_init(int i);
+
+/****************************************************************************
+* Function     : dOmega_init
+* Discription  : calculate Omega drift rate of debris
+*                input:
+*					i: debris ID
+*                ouput:
+*					return value:  Omega drift rate (unit: rad/s)
+****************************************************************************/
 double dOmega_init(int i);
-double dOmega_notreal(int i);
+
+/****************************************************************************
+* Function     : estimate_dv
+* Discription  : estimate delta v for debris-to-debris transfer, from debris_now to target starting from tnow;
+*                it will compute the suitable departure epoch (Ts) and arrival epoch (Tf)
+*                input:
+*					debris_now: debris now ID
+*					target: target ID
+*                   tnow: now time (from 0, unit: Day)
+*                   end_epoch: the upper bound of the epoch (unit: Day,optional)
+*					N: the number of left debris (optional)
+*                ouput:
+*					Ts: departure epoch (from 0, unit: Day)
+*					Tf: arrival epoch (from 0, unit: Day)
+*					return value: delta v (unit: m/s)
+****************************************************************************/
+double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf);
+double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf, double end_epoch, int N);
+
+/****************************************************************************
+* Function     : Dv_ij
+* Discription  : calculate delta v for debris-to-debris transfer, from i to j, from tnow to tf;
+*                (based on Simple ΔV Approximation for Optimization of Debris-to-Debris Transfers,
+*                 Hong-Xin Shen and Lorenzo Casalino,
+*                 Journal of Spacecraft and Rockets 2021 58:2, 575-580)
+*                input:
+*					i: debris now ID
+*					j: target ID
+*					ts: departure epoch (from 0, unit: Day)
+*					tf: arrival epoch (from 0, unit: Day)
+*                ouput:
+*					return value: delta v (unit: m/s)
+****************************************************************************/
+double Dv_ij(int i, int j, double ts, double tf);
+
+/****************************************************************************
+* Function     : Dv_All
+* Discription  : calculate delta v for all transfers
+*                input:
+*	                R: derbris sequence ID
+*					T: time sequence (from 0, unit: Day)
+*                ouput:
+*				    dv_sequence: delta v sequence (unit: m/s)
+*					return value: total delta v (unit: m/s)
+****************************************************************************/
+double Dv_All(const std::vector<double>& T, const std::vector<int>& R, std::vector<double>& dv_sequence);
+
 #endif
 

@@ -182,7 +182,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\multitree_beam.cpp" />
-    <ClCompile Include="src\problem_struct.cpp" />
+    <ClCompile Include="src\multitree_problem_struct.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\constant.h" />
@@ -194,7 +194,7 @@
     <ClInclude Include="include\multitree_beam.h" />
     <ClInclude Include="include\orbit_base\OrbitFun.h" />
     <ClInclude Include="include\orbit_base\OrbitMath.h" />
-    <ClInclude Include="include\problem_struct.h" />
+    <ClInclude Include="include\multitree_problem_struct.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\nlopt.dll" />

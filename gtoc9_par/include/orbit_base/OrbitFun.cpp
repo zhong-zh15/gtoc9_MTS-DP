@@ -1,13 +1,11 @@
 #include "OrbitFun.h"
 
-#include <math.h>       /* isnan, sqrt */
+#include <math.h>       
 #include <stdio.h>
 
 
 #include "Constant.h"
 #include "OrbitMath.h"
-//#include "Integrator.h"
-//#include "MinpackSolver.h"
 
 
 //经典轨道根数 coe[5]:

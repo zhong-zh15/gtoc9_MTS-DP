@@ -3,7 +3,108 @@
 #include <numeric>
 
 
-//#include "multitree_beam.h"
+//split string to int
+//intput: current_string, cut_string, output: int_vector
+void splitStr(const string& str, vector<int>& arr, const string& cut)
+{
+	// str: current_string
+	// arr: output
+	// cut; cut_string
+	string::size_type pos1, pos2;
+	pos2 = str.find(cut);
+	pos1 = 0;
+	while (string::npos != pos2)
+	{
+		arr.push_back(stoi(str.substr(pos1, pos2 - pos1)));
+		pos1 = pos2 + cut.size();
+		pos2 = str.find(cut, pos1);
+	}
+	if (pos1 != str.length())
+		arr.push_back(stoi(str.substr(pos1)));
+}
+
+std::vector<std::vector<int>> string2sequence(const string& x)
+{
+	vector<vector<int>> sequence;
+	vector<int> all_number;
+	string str1 = ",";
+	splitStr(x, all_number, str1);
+	vector<int> single_sequence;
+	int counter = 0;
+	while (true)
+	{
+		int temp = all_number[counter];
+		single_sequence.resize(temp);
+		for (int i = 0; i < temp; i++)
+		{
+			counter++;
+			single_sequence[i] = all_number[counter];
+		}
+		counter++;
+		sequence.push_back(single_sequence);
+		single_sequence.clear();
+		if (counter == all_number.size()) break;
+	}
+	return sequence;
+}
+
+std::vector<int> string2sequence(const string& x, int& mission_id)
+{
+	vector<int> sequence;
+	vector<int> all_number;
+	string str1 = ",";
+	splitStr(x, all_number, str1);
+	int counter = 0;
+
+
+	mission_id = all_number[counter];
+	counter++;
+
+	int temp = all_number[counter];
+	sequence.resize(temp);
+
+	for (int i = 0; i < temp; i++)
+	{
+		counter++;
+		sequence[i] = all_number[counter];
+	}
+	counter++;
+	return sequence;
+}
+
+string sequence2string(const std::vector<std::vector<int>>& x)
+{
+	string string_sequence;
+
+	for (int mission = 0; mission < x.size(); mission++)
+	{
+		string_sequence += to_string(x[mission].size());
+		string_sequence += ",";
+		for (int i = 0; i < x[mission].size(); i++)
+		{
+			string_sequence += to_string(x[mission][i]);
+			if (!(mission == x.size() - 1 && i == x[mission].size() - 1)) string_sequence += ",";
+		}
+	}
+	return string_sequence;
+}
+
+string sequence2string(const std::vector<int>& x, int mission)
+{
+	string string_sequence;
+
+	string_sequence += to_string(mission);
+	string_sequence += ",";
+
+	string_sequence += to_string(x.size());
+	string_sequence += ",";
+	for (int i = 0; i < x.size(); i++)
+	{
+		string_sequence += to_string(x[i]);
+		if (!(mission == x.size() - 1 && i == x.size() - 1)) string_sequence += ",";
+	}
+	return string_sequence;
+}
 
 
 void local_search_1layer(unordered_map<string, double> &neighborhood, vector<vector<vector<int>>> &X_all, vector<opt_struct> &a_all, vector<vector<vector<int>>> &X_all_end, vector<opt_struct> &a_all_end, double opt_min)
@@ -205,110 +306,6 @@ void local_search_1layer(unordered_map<string, double> &neighborhood, vector<vec
 	X_all_next.clear();
 	a_all_next.clear();
 }
-
-//split string to int
-//intput: current_string, cut_string, output: int_vector
-void splitStr(const string& str, vector<int>& arr, const string& cut)
-{
-	// str: current_string
-	// arr: output
-	// cut; cut_string
-	string::size_type pos1, pos2;
-	pos2 = str.find(cut);
-	pos1 = 0;
-	while (string::npos != pos2)
-	{
-		arr.push_back(stoi(str.substr(pos1, pos2 - pos1)));
-		pos1 = pos2 + cut.size();
-		pos2 = str.find(cut, pos1);
-	}
-	if (pos1 != str.length())
-		arr.push_back(stoi(str.substr(pos1)));
-}
-
-std::vector<std::vector<int>> string2sequence(const string& x)
-{
-	vector<vector<int>> sequence;
-	vector<int> all_number;
-	string str1 = ",";
-	splitStr(x, all_number, str1);
-	vector<int> single_sequence;
-	int counter = 0;
-	while (true)
-	{
-		int temp = all_number[counter];
-		single_sequence.resize(temp);
-		for (int i = 0; i < temp; i++)
-		{
-			counter++;
-			single_sequence[i] = all_number[counter];
-		}
-		counter++;
-		sequence.push_back(single_sequence);
-		single_sequence.clear();
-		if (counter == all_number.size()) break;
-	}
-	return sequence;
-}
-
-std::vector<int> string2sequence(const string& x, int& mission_id)
-{
-	vector<int> sequence;
-	vector<int> all_number;
-	string str1 = ",";
-	splitStr(x, all_number, str1);
-	int counter = 0;
-
-
-	mission_id = all_number[counter];
-	counter++;
-
-	int temp = all_number[counter];
-	sequence.resize(temp);
-
-	for (int i = 0; i < temp; i++)
-	{
-		counter++;
-		sequence[i] = all_number[counter];
-	}
-	counter++;
-	return sequence;
-}
-
-string sequence2string(const std::vector<std::vector<int>>& x)
-{
-	string string_sequence;
-
-	for (int mission = 0; mission < x.size(); mission++)
-	{
-		string_sequence += to_string(x[mission].size());
-		string_sequence += ",";
-		for (int i = 0; i < x[mission].size(); i++)
-		{
-			string_sequence += to_string(x[mission][i]);
-			if (!(mission == x.size() - 1 && i == x[mission].size() - 1)) string_sequence += ",";
-		}
-	}
-	return string_sequence;
-}
-
-string sequence2string(const std::vector<int>& x,int mission)
-{
-	string string_sequence;
-
-	string_sequence += to_string(mission);
-	string_sequence += ",";
-
-	string_sequence += to_string(x.size());
-	string_sequence += ",";
-	for (int i = 0; i < x.size(); i++)
-	{
-		string_sequence += to_string(x[i]);
-		if (!(mission == x.size() - 1 && i == x.size() - 1)) string_sequence += ",";
-	}
-	return string_sequence;
-}
-
 
 vector<string> localsearch_gtoc9_MTS_pool(std::vector<vector<int>>& X, opt_struct& f_data, vector<each_mis_neighborhood> &neighbor)
 {

@@ -16,9 +16,6 @@
 #include "DP.h"
 #include "gtoc9_problem.h"
 
-//#include "ACO_gtoc9.h"
-//#include "multitree_beam.h"
-
 
 //数据集debris_data
 //0碎片编号 1* 2轨道半长轴(m) 3偏心率 4倾角(rad) 
@@ -32,7 +29,7 @@ const int end_time = 13;
 
 double domega_debris[123];
 double dOmega_debris[123];
-double dOmega_debris_notreal[123];
+//double dOmega_debris_notreal[123];
 
 /****************************************************************************
 * 函数名   : load_input()
@@ -100,7 +97,7 @@ void load_input()
 	{
 		domega_init(i);
 		dOmega_init(i);
-		dOmega_notreal(i);
+		/*dOmega_notreal(i);*/
 	}
 		
 
@@ -400,11 +397,11 @@ void Test_GTOC9_results()
 int main()
 {
 	load_input(); //读取空间碎片信息
-	auto end2 = std::chrono::steady_clock::now();
+	auto start_time = std::chrono::steady_clock::now();
 	MultiTree multi_tree(128*20, 1, 20, 800, 10);
 	multi_tree.Run();
-	auto end3 = std::chrono::steady_clock::now();
-	double duration = std::chrono::duration_cast<std::chrono::milliseconds>(end3 - end2).count() / 1000.0;
+	auto end_time = std::chrono::steady_clock::now();
+	double duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() / 1000.0;
 	cout << "Time is " << duration << "s ; which is " << duration / 3600.0 << " hours" << endl;
 
 	Test_GTOC9_results();

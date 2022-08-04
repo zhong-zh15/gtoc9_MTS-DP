@@ -391,8 +391,10 @@ vector<DP_info_struct_single_mission> DP_optimization_single_mission(const vecto
 *					T_all: time of all mission
 *					dv_all: dv of all mission
 ****************************************************************************/
-double DP_optimization_all_mission(const vector<vector<int>>& sequence, std::vector< std::vector<double>>& T_all, std::vector< std::vector<double>>& dv_all, double
-                                   opt_min_top)
+double DP_optimization_all_mission(const vector<vector<int>>& sequence, 
+	                               std::vector< std::vector<double>>& T_all,
+	                               std::vector< std::vector<double>>& dv_all, 
+	                               double opt_min_top)
 {
 	//  input parameter
 	const double step_init = 6.0;   // mission tf step days

@@ -18,7 +18,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\problem_struct.cpp">
+    <ClCompile Include="src\multitree_problem_struct.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\multitree_beam.cpp">
@@ -47,7 +47,7 @@
     <ClInclude Include="include\multitree_beam.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\problem_struct.h">
+    <ClInclude Include="include\multitree_problem_struct.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\model.h">
