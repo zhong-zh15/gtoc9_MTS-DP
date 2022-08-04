@@ -61,8 +61,6 @@ struct decision_sequence
 vector<DP_info_struct_single_mission> DP_optimization_single_mission(const vector<int>& sequence, double start_epoch, double end_epoch, std::vector<double>& T_single_mission);
 
 DP_info_struct_single_mission DP_optimization_single_mission_min_m0(const vector<int>& sequence, double start_epoch, double end_epoch);
-double DP_optimization_total(
-	const vector<vector<int>>& debris_sequence, vector<vector<double>>& T_sequence, vector<vector<double>>& dv_missions);
 
 double DP_optimization_all_mission(const vector<vector<int>>& sequence, std::vector< std::vector<double>>& T_all, std::vector< std::vector<double>>& dv_all, double
                                    opt_min_top = 50.0);

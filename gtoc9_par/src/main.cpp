@@ -301,14 +301,14 @@ void Test_GTOC9_results()
 	//Nan_opt_info.debris_squence[0].pop_back();
 	//Nan_opt_info.debris_squence[0].pop_back();
 	for(int i =0; i< 0;i++)
-		socre = DP_optimization_total(JPL_opt_info.debris_squence, T_single_mission_test, dv_missions_test);
+		socre = DP_optimization_all_mission(JPL_opt_info.debris_squence, T_single_mission_test, dv_missions_test);
 	//socre = DP_optimization_total(Nan_opt_info.debris_squence, T_single_mission_test, dv_missions_test);
 	double end= clock();
 	cout << " Score is " << socre << ";   time is " << (end - start) / CLOCKS_PER_SEC / 100.0 << endl;
 
 
 	for (int i = 0; i < 0; i++)
-		socre = DP_optimization_total(Nan_opt_info.debris_squence, T_single_mission_test, dv_missions_test);
+		socre = DP_optimization_all_mission(Nan_opt_info.debris_squence, T_single_mission_test, dv_missions_test);
 	end = clock();
 	cout << " Score is " << socre << ";   time is " << (end - start) / CLOCKS_PER_SEC / 100.0 << endl;
 

@@ -21,10 +21,7 @@
 #include <unordered_map>
 
 
-//#include "ACO_gtoc9.h"
 #include "problem_struct.h"
-//#include "use_nlopt.h"
-//#include "PSO.h"
 #include "local_search.h"
 
 /****************************************************************************

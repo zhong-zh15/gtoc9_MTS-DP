@@ -2,14 +2,9 @@
 
 #include <set>
 #include <cstring>
-/****************************************************************************
-* Function     : DP_optimization
-* Discription  :
-*                input: sequence()
-*				        start_epoch
-*                       end_epoch ()
-*                ouput: T_single_mission
-****************************************************************************/
+
+//输入 sequence, start_epoch,end_epoch
+//输出 最小质量，不需要存储各个时间，所以会更快一些
 DP_info_struct_single_mission DP_optimization_single_mission_min_m0(const vector<int>& sequence, double start_epoch, double end_epoch)// , std::vector<double>& T_single_mission)
 {
 	double step_init = 8.0; //days
@@ -201,7 +196,8 @@ DP_info_struct_single_mission DP_optimization_single_mission_min_m0(const vector
 }
 
 
-
+//输入 sequence, start_epoch,end_epoch
+//输出 最小质量，T_single_mission：单个任务的时间
 vector<DP_info_struct_single_mission> DP_optimization_single_mission(const vector<int>& sequence, double start_epoch, double end_epoch, std::vector<double>& T_single_mission)
 {
 	double step_init = 8.0; //days
@@ -381,359 +377,20 @@ vector<DP_info_struct_single_mission> DP_optimization_single_mission(const vecto
 }
 
 
-double DP_optimization_total(
-	const vector<vector<int>>& debris_sequence, vector<vector<double>>& T_sequence, vector<vector<double>>& dv_missions)
-{
-	double step_init = 16; //days
-	int num_step = 26;
-	int W = 100;
-	double t_shift = 208.0;
-
-	//generate start and end epochs
-	auto mission_end_epoch = divide_missions(debris_sequence);
-	vector<double> mission_start_epoch(mission_end_epoch.size());
-	mission_start_epoch[0] = 0.0;
-	for (int i = 1; i < mission_start_epoch.size(); i++){mission_start_epoch[i] = mission_end_epoch[i - 1] + 35.0;}
-	for (int i = 1; i < mission_start_epoch.size(); i++) {mission_start_epoch[i] -= t_shift;}
-	for (int i = 0; i < mission_start_epoch.size() - 1; i++){mission_end_epoch[i] += t_shift;}
 
 
-	// add debris one by one
-	int mission_number = debris_sequence.size();
-	vector<vector<DP_info_struct_single_mission>> DP_total_mission(mission_number);
-	for (int mission = 0; mission < mission_number; mission++) DP_total_mission[mission].reserve(500);
-
-	for (int mission = 0; mission < mission_number; mission++)
-	{
-		vector<double> T_single;
-		vector<int> Debris_single = debris_sequence[mission];
-		double start_epoch = mission_start_epoch[mission];
-		double end_epoch = mission_end_epoch[mission];
-		for (int i = 0; i < num_step; i++)
-		{
-			double t_end_test = end_epoch;
-			//if (end_epoch > start_epoch + i * step_init + Debris_single.size() * 24.0)
-			//{
-			//	t_end_test = start_epoch + i * step_init + Debris_single.size() * 24.0;
-			//}
-
-			auto temp = DP_optimization_single_mission(Debris_single, start_epoch + i * step_init, t_end_test, T_single);
-			DP_total_mission[mission].insert(DP_total_mission[mission].end(), temp.begin(), temp.end());
-			if (mission == 0 && i > num_step /2 ) break;
-		}
-	}
-
-	//select single mission minimum m0
-	//for (int i = 0; i < mission_number; i++)
-	//{
-	//	sort(DP_total_mission[i].begin(), DP_total_mission[i].end(), [](const DP_info_struct_single_mission& a, const DP_info_struct_single_mission& b) {return (a.m0 < b.m0); });
-	//	double m0_max = 7000.0;
-	//	auto iter = find_if(DP_total_mission[i].begin(), DP_total_mission[i].end(), [m0_max](DP_info_struct_single_mission& n) { return n.m0 > m0_max; });
-	//	DP_total_mission[i].erase(iter, DP_total_mission[i].end());
-	//}
-
-
-	vector<decision_sequence> expand_nodes(DP_total_mission[0].size());
-	for (int i = 0; i < DP_total_mission[0].size(); i++)
-	{
-		expand_nodes[i].decision[0] = i;
-		expand_nodes[i].m = DP_total_mission[0][i].m0;
-	}
-	
-	sort(expand_nodes.begin(), expand_nodes.end(), [](const decision_sequence& a, const decision_sequence& b) {return a.m < b.m; });
-	if (expand_nodes.size() > W)
-		expand_nodes.resize(W);
-
-
-	for (int i = 1; i < mission_number; i++)
-	{
-		vector<decision_sequence> child_nodes;
-		child_nodes.reserve(W* DP_total_mission[i].size());
-		for (int j = 0; j < expand_nodes.size(); j++)
-		{
-			for (int k = 0; k < DP_total_mission[i].size(); k++)
-			{
-				decision_sequence temp;
-				temp.m = expand_nodes[j].m;
-				memcpy(temp.decision, expand_nodes[j].decision, mission_number * sizeof(int));
-				temp.decision[i]=k;
-				temp.m += DP_total_mission[i][k].m0;
-
-				double t_this_end = DP_total_mission[i - 1][expand_nodes[j].decision[i-1]].T_single_mission.back();
-				double t_next_start = DP_total_mission[i][k].T_single_mission[0];
-				if (t_this_end + 35.0 > t_next_start)
-					continue;
-				child_nodes.emplace_back(temp);
-			}
-		}
-		sort(child_nodes.begin(), child_nodes.end(), [](const decision_sequence& a, const decision_sequence& b) {return a.m < b.m; });
-		if (child_nodes.size() > W)
-		{
-			child_nodes.resize(W);
-			expand_nodes.swap(child_nodes);
-		}
-		else
-		{
-			expand_nodes.swap(child_nodes) ;
-		}
-	}
-
-	if(expand_nodes.size() > 0)
-	{
-		vector<int> decision_sequence(expand_nodes[0].decision, expand_nodes[0].decision+mission_number);
-		T_sequence.resize(mission_number);
-		for (int i = 0; i < mission_number; i++)
-		{
-			T_sequence[i] = DP_total_mission[i][decision_sequence[i]].T_single_mission;
-		}
-		dv_missions.resize(mission_number);
-		for (int i = 0; i < mission_number; i++)
-		{
-			dv_missions[i] = DP_total_mission[i][decision_sequence[i]].dv_single_mission;
-		}
-		double total_socre = 0.0;
-		for (int mission_id = 0; mission_id < dv_missions.size(); mission_id++)
-		{
-			//Calculate mass
-			double m0;
-			double mp = mp_calc(dv_missions[mission_id], m0);
-			total_socre += 55.0 + 2.0e-6 * (m0 - 2000.0) * (m0 - 2000.0);
-		}
-		return total_socre;
-	}
-
-	return 1.0e6;
-}
-
-
-//double DP_optimization_all_mission(const vector<vector<int>>& sequence,  std::vector< std::vector<double>>& T_all, std::vector< std::vector<double>>& dv_all)
-//{
-//
-//	//  input parameter
-//	const double step_init = 6.0;   // mission tf step days
-//	const int num_step_init = 15;  // mission tf step number
-//	const double t_step_tf = 6.0;   // tf step days
-//
-//	// indirect parameter (do not change)
-//	int tf_num = 0;           //tf num
-//	for (double tf_transfer_temp = 6.0; tf_transfer_temp < 30.0 + 1.0e-1; tf_transfer_temp += t_step_tf) tf_num++;
-//	int mission_number = sequence.size();   // mission number
-//	int N = 0;        // decision number 
-//	for (int i = 0; i < mission_number; i++) N += sequence[i].size();
-//	double start_epoch = 0.0;         
-//	double end_epoch = 2947.0;
-//	
-//	vector<vector<DP_info_struct>> dp_info(N); //state space
-//	for (int i = 0; i < N; i++) dp_info[i].reserve(50);
-//	
-//	vector<double> start_T_sequence;   //all start epochs
-//	for (int i = 0; i < num_step_init; i++) start_T_sequence.push_back(start_epoch + i * step_init);
-//
-//	// start dp: determin end epoch  
-//	int layer = N-1;
-//	for(int i = 0; i< num_step_init; i++)
-//	{
-//		double Tf = end_epoch - i * step_init;
-//		DP_info_struct dp_info_temp;
-//		dp_info_temp.last_iter = -1;
-//		dp_info_temp.T_single_mission = Tf;
-//		dp_info_temp.dv_single_mission = 0.0;
-//		dp_info_temp.opt_index = 0.0;
-//		dp_info_temp.end_epcoh = 0.0;
-//		dp_info_temp.m0 = 2030.0;
-//		dp_info[layer].emplace_back(dp_info_temp);
-//	}
-//
-//	//from NO.1 start
-//	for (int mission_id = mission_number-1; mission_id > -1; mission_id--)
-//	{
-//		for(int debris_id = sequence[mission_id].size()-1; debris_id > -1; debris_id--)
-//		{
-//			layer--;  //start from 1
-//			if (mission_id == 0 && debris_id == 0) break;
-//
-//			// now_debris target_debris
-//			int now_debris = -1;
-//			int target_debris = sequence[mission_id][debris_id];
-//			if(debris_id == 0)
-//			{
-//				now_debris = sequence[mission_id-1].back();
-//			}
-//			else
-//			{
-//				now_debris = sequence[mission_id][debris_id - 1];
-//			}
-//
-//			//next layer all epoch
-//			vector<double> next_time_all;   next_time_all.reserve(300);
-//			int size_dp_info = dp_info[layer + 1].size();
-//			for (int i = 0; i < size_dp_info; i++)
-//			{
-//				double time_now_temp = dp_info[layer + 1][i].T_single_mission;
-//
-//				if(debris_id == 0) 
-//				{//new mission
-//					for (int j = 0; j < num_step_init; j++)
-//					{
-//						double time_temp = time_now_temp - 36.0 - j * step_init;
-//						if (time_temp < start_epoch) continue;
-//						auto if_in_vector = find(next_time_all.begin(), next_time_all.end(), time_temp);
-//						if (if_in_vector == next_time_all.end())
-//							next_time_all.push_back(time_temp);
-//					}
-//				}
-//				else
-//				{//old mission
-//					for (int j = 0; j < tf_num; j++)
-//					{
-//						double time_temp = time_now_temp - 6.0 - j * t_step_tf;
-//						//if (time_temp > end_epoch || dp_info[layer - 1][i].dv_single_mission > 1000.0) continue;
-//						if (time_temp < start_epoch) continue;
-//						auto if_in_vector = find(next_time_all.begin(), next_time_all.end(), time_temp);
-//						if (if_in_vector == next_time_all.end())
-//							next_time_all.push_back(time_temp);
-//					}
-//				}
-//			}
-//
-//			//for all t_f, select best optimization index
-//			for (auto t_f_minor_1 : next_time_all)
-//			{
-//				double opt_index_min = 5.0e2;
-//				double last_mission_opt,m0;
-//				double T_now, Ts, Tf;
-//				double dv_min = 5.0e2;
-//				int iter_min = -1;
-//				for (int i = 0; i < size_dp_info; i++)
-//				{
-//					double t_now = dp_info[layer + 1][i].T_single_mission;
-//					
-//					if (debris_id == 0)
-//					{//new mission
-//						double t_transfer = (t_now - 36.0) - t_f_minor_1;
-//						if (!(0.0 - 1.0e-6 < t_transfer && t_transfer < step_init * num_step_init-1.0e-10)) continue;
-//						double t_temp = t_transfer / step_init;
-//						t_temp += 1.0e-4;
-//						t_temp = t_temp - int(t_temp);
-//						if ((t_temp) > 1.0e-3) continue;
-//						
-//						double opt_index = dp_info[layer + 1][i].opt_index;
-//
-//						if (opt_index < opt_index_min)
-//						{
-//							opt_index_min = opt_index;
-//							last_mission_opt = opt_index;
-//							m0 = 2030.0;
-//							dv_min = 0.0;
-//							T_now = t_now;
-//							Tf = t_f_minor_1;
-//							iter_min = i;
-//						}
-//					}
-//					else
-//					{//old mission
-//						double t_s = t_f_minor_1 + 5.0;
-//						double t_transfer = t_now- (t_f_minor_1+ 6.0);
-//						if (!(0.0 - 1.0e-6 < t_transfer && t_transfer < 24.0 + 1.0e-6)) continue;
-//						double t_temp = t_transfer / t_step_tf;
-//						t_temp += 1.0e-4;
-//						t_temp = t_temp - int(t_temp);
-//						if ((t_temp) > 1.0e-3) continue;
-//						double dv = Dv_ij(now_debris, target_debris, t_s, t_now);
-//						//const DP_info_struct* dp_info_now = &dp_info[layer - 1][i];
-//						//double opt_index = calculate_opt(dp_info, mission_number, layer, mission_id, dp_info_now, dv);
-//						double m0_new = (dp_info[layer + 1][i].m0) * exp(dv / 340.0 / 9.80665)+30.0;
-//						double opt_now_mission = (m0_new - 2000.0)* (m0_new - 2000.0)*2.0e-6;
-//						double opt_index = opt_now_mission + dp_info[layer + 1][i].end_epcoh;
-//
-//						if (opt_index < opt_index_min)
-//						{
-//							opt_index_min = opt_index;
-//							last_mission_opt = dp_info[layer + 1][i].end_epcoh;
-//							m0 = m0_new;
-//							dv_min = dv;
-//							T_now = t_now;
-//							Ts = t_s;
-//							Tf = t_f_minor_1;
-//							iter_min = i;
-//						}
-//					}
-//
-//				}
-//
-//				if(iter_min >-1)
-//				{
-//					DP_info_struct dp_info_temp;
-//					dp_info_temp.last_iter = iter_min;
-//					dp_info_temp.T_single_mission = Tf;
-//					dp_info_temp.dv_single_mission = dv_min;
-//					dp_info_temp.opt_index = opt_index_min;
-//					dp_info_temp.end_epcoh = last_mission_opt;
-//					dp_info_temp.m0 = m0;
-//					dp_info[layer].emplace_back(dp_info_temp);
-//				}
-//				//else
-//				//{
-//				//	std::cout << "Wrong!" << std::endl;
-//				//}
-//			}
-//		}
-//		
-//	}
-//
-//    if(dp_info[0].size() == 0) return 1.0e10;
-//	
-//	//select minimum m0
-//	double min_m0 = 1.0e10;
-//	int counter_min = 0;
-//	for (int counter_final1 = 0; counter_final1 < dp_info[0].size(); counter_final1++)
-//	{
-//		if (dp_info[0][counter_final1].opt_index < min_m0)
-//		{
-//			min_m0 = dp_info[0][counter_final1].opt_index;
-//			counter_min = counter_final1;
-//		}
-//	}
-//	int counter_final = counter_min;
-//
-//	dv_all.resize(mission_number); vector<double> dv_single;
-//	T_all.resize(mission_number); vector<double> T_single;
-//	auto dp_info_now = &dp_info[0][counter_final];
-//	int mission_temp = 0;
-//	int layer_temp = 0;
-//	while (true)
-//	{
-//		layer_temp++;
-//		double dv_temp = dp_info_now->dv_single_mission;
-//		double t_temp = dp_info_now->T_single_mission;
-//		if (dv_temp < 1.0e-10)
-//		{
-//			dv_all[mission_temp].swap(dv_single);
-//			dv_single.clear();
-//			
-//			T_single.emplace_back(t_temp);
-//			T_all[mission_temp].swap(T_single);
-//			T_single.clear();
-//			
-//			mission_temp++;
-//		}
-//		else
-//		{
-//			T_single.emplace_back(t_temp);
-//			T_single.emplace_back(t_temp+5.0);
-//			dv_single.emplace_back(dv_temp);
-//		}
-//	
-//		if (dp_info_now->last_iter < 0) break;
-//
-//		dp_info_now = &dp_info[layer_temp][dp_info_now->last_iter];
-//	}
-//
-//
-//	return min_m0 + 55.0 * mission_number;
-//}
-
-
+/****************************************************************************
+* Function     : DP_optimization_all_mission
+* Discription  :
+*                input:
+*					sequence: debris sequence
+*					start_epoch: start epoch (from 0)
+*                   end_epoch: end epoch (from 0)
+*					opt_min_top: default is 50.0, it is dsigned to accelerate the calculation
+*                ouput:
+*					T_all: time of all mission
+*					dv_all: dv of all mission
+****************************************************************************/
 double DP_optimization_all_mission(const vector<vector<int>>& sequence, std::vector< std::vector<double>>& T_all, std::vector< std::vector<double>>& dv_all, double
                                    opt_min_top)
 {

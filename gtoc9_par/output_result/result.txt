@@ -1,5 +1,5 @@
 Removal total num and Total dv:  10 495.05
-Removal total num and Total dv:  10 495.107
+Removal total num and Total dv:  10 884.171
 Removal total num and Total J:  10 884.171
 Removal num 1 : 103 
 Removal num 1 : 111 
@@ -30,7 +30,7 @@ Dv 0 :
 Dv 0 : 
 
 Removal total num and Total dv:  11 495.05
-Removal total num and Total dv:  11 495.086
+Removal total num and Total dv:  11 504.443
 Removal total num and Total J:  11 504.443
 Removal num 2 : 103 38 
 Removal num 1 : 111 
@@ -53,68 +53,6 @@ Epoch  2947~2947 : 2947
 Dv 2038.32 : 2038.32 
 Dv 0 : 
 Dv 1547.46 : 1547.46 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-
-Removal total num and Total dv:  12 495.077
-Removal total num and Total dv:  12 495.092
-Removal total num and Total J:  12 504.809
-Removal num 2 : 103 38 
-Removal num 2 : 111 42 
-Removal num 2 : 7 82 
-Removal num 1 : 8 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
-Epoch  2083~2113 : 2083 2088 2113 
-Epoch  2203~2233 : 2203 2208 2233 
-Epoch  2323~2353 : 2323 2328 2353 
-Epoch  2767~2767 : 2767 
-Epoch  2803~2803 : 2803 
-Epoch  2839~2839 : 2839 
-Epoch  2875~2875 : 2875 
-Epoch  2911~2911 : 2911 
-Epoch  2947~2947 : 2947 
-Dv 2009.29 : 2009.29 
-Dv 714.215 : 714.215 
-Dv 1547.46 : 1547.46 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-Dv 0 : 
-
-Removal total num and Total dv:  13 495.111
-Removal total num and Total dv:  13 495.126
-Removal total num and Total J:  13 881.934
-Removal num 2 : 103 38 
-Removal num 2 : 111 42 
-Removal num 3 : 82 70 7 
-Removal num 1 : 8 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
-Epoch  2053~2083 : 2053 2058 2083 
-Epoch  2173~2203 : 2173 2178 2203 
-Epoch  2293~2353 : 2293 2298 2323 2328 2353 
-Epoch  2767~2767 : 2767 
-Epoch  2803~2803 : 2803 
-Epoch  2839~2839 : 2839 
-Epoch  2875~2875 : 2875 
-Epoch  2911~2911 : 2911 
-Epoch  2947~2947 : 2947 
-Dv 1980.25 : 1980.25 
-Dv 703.953 : 703.953 
-Dv 6812.06 : 4147.64 2664.42 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 

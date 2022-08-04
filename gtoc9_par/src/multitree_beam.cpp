@@ -443,8 +443,8 @@ Solution TNC::GetBack()
 	}
 
 	vector<vector<double>> time_sequence, dv_sequence;
-	temp.cost_ = DP_optimization_total(debris_sequence, time_sequence, dv_sequence);
-	DP_optimization_all_mission(debris_sequence, time_sequence, dv_sequence,1.0e10);
+	//temp.cost_ = DP_optimization_total(debris_sequence, time_sequence, dv_sequence);
+	temp.cost_ = DP_optimization_all_mission(debris_sequence, time_sequence, dv_sequence,1.0e10);
 	// vector<double> T_test;
 	// for (auto a : time_sequence)
 	// 	for (auto b : a) T_test.push_back(b);
