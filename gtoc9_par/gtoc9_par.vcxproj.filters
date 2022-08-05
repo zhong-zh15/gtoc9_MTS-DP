@@ -76,8 +76,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\nlopt.dll" />
     <None Include="README.md" />
+    <None Include="bin\GTOC9_parallel.sh" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input_data\debris_data.txt" />

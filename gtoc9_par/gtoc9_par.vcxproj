@@ -197,7 +197,7 @@
     <ClInclude Include="include\multitree_problem_struct.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\nlopt.dll" />
+    <None Include="bin\GTOC9_parallel.sh" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
