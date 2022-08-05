@@ -38,20 +38,17 @@ You can run MultiTree by only several steps:
 
 * Linux 
 ```
-git clone --recursive https://github.com/Bin-Cheng-THU/DEMBody
-cd DEMBody/build && rm -rf *
-cmake ../src
+git clone --recursive https://github.com/zhong-zh15/gtoc9_MTS-DP
+cd gtoc9_par/build && rm -rf *
+cmake ..
 make
-cp ../src/DEMBody.sh . && sbatch DEMBody.sh
+cd ../bin 
+sbatch GTOC9_parallel.sh
 ```
 
 * Windows (Visual Studio 2022)
 ```
-git clone --recursive https://github.com/Bin-Cheng-THU/DEMBody
-cd DEMBody/build && rm -rf *
-cmake ../src
-make
-cp ../src/DEMBody.sh . && sbatch DEMBody.sh
+git clone --recursive https://github.com/zhong-zh15/gtoc9_MTS-DP
 ```
 
 ## Authors
