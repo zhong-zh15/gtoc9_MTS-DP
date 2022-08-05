@@ -201,7 +201,10 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="build\placeholder.txt" />
+    <Text Include="CMakeLists.txt" />
     <Text Include="input_data\debris_data.txt" />
+    <Text Include="lib\placeholder.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

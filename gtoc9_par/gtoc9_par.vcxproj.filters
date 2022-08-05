@@ -81,5 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="input_data\debris_data.txt" />
+    <Text Include="CMakeLists.txt" />
+    <Text Include="build\placeholder.txt" />
+    <Text Include="lib\placeholder.txt" />
   </ItemGroup>
 </Project>
