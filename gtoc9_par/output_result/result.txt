@@ -91,3 +91,96 @@ Dv 0 :
 Dv 0 : 
 Dv 0 : 
 
+Removal total num and Total dv:  13 495.111
+Removal total num and Total dv:  13 881.934
+Removal total num and Total J:  13 881.934
+Removal num 2 : 103 38 
+Removal num 2 : 111 42 
+Removal num 3 : 82 70 7 
+Removal num 1 : 8 
+Removal num 1 : 75 
+Removal num 1 : 31 
+Removal num 1 : 101 
+Removal num 1 : 97 
+Removal num 1 : 102 
+Epoch  2053~2083 : 2053 2058 2083 
+Epoch  2173~2203 : 2173 2178 2203 
+Epoch  2293~2353 : 2293 2298 2323 2328 2353 
+Epoch  2767~2767 : 2767 
+Epoch  2803~2803 : 2803 
+Epoch  2839~2839 : 2839 
+Epoch  2875~2875 : 2875 
+Epoch  2911~2911 : 2911 
+Epoch  2947~2947 : 2947 
+Dv 1980.25 : 1980.25 
+Dv 703.953 : 703.953 
+Dv 6812.06 : 4147.64 2664.42 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+
+Removal total num and Total dv:  14 495.148
+Removal total num and Total dv:  14 1664.19
+Removal total num and Total J:  14 1664.19
+Removal num 2 : 103 38 
+Removal num 2 : 111 42 
+Removal num 4 : 82 70 7 41 
+Removal num 1 : 8 
+Removal num 1 : 75 
+Removal num 1 : 31 
+Removal num 1 : 101 
+Removal num 1 : 97 
+Removal num 1 : 102 
+Epoch  2023~2053 : 2023 2028 2053 
+Epoch  2143~2173 : 2143 2148 2173 
+Epoch  2263~2353 : 2263 2268 2293 2298 2323 2328 2353 
+Epoch  2767~2767 : 2767 
+Epoch  2803~2803 : 2803 
+Epoch  2839~2839 : 2839 
+Epoch  2875~2875 : 2875 
+Epoch  2911~2911 : 2911 
+Epoch  2947~2947 : 2947 
+Dv 1951.22 : 1951.22 
+Dv 693.691 : 693.691 
+Dv 8471.7 : 4068.1 2612.73 1790.87 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+
+Removal total num and Total dv:  15 495.182
+Removal total num and Total dv:  15 1946.4
+Removal total num and Total J:  15 1946.4
+Removal num 2 : 103 38 
+Removal num 2 : 111 42 
+Removal num 4 : 45 70 7 41 
+Removal num 1 : 8 
+Removal num 2 : 75 82 
+Removal num 1 : 31 
+Removal num 1 : 101 
+Removal num 1 : 97 
+Removal num 1 : 102 
+Epoch  1993~2023 : 1993 1998 2023 
+Epoch  2113~2143 : 2113 2118 2143 
+Epoch  2233~2323 : 2233 2238 2263 2268 2293 2298 2323 
+Epoch  2467~2467 : 2467 
+Epoch  2503~2533 : 2503 2508 2533 
+Epoch  2839~2839 : 2839 
+Epoch  2875~2875 : 2875 
+Epoch  2911~2911 : 2911 
+Epoch  2947~2947 : 2947 
+Dv 1922.18 : 1922.18 
+Dv 683.429 : 683.429 
+Dv 8778.59 : 4461.67 2561.05 1755.88 
+Dv 0 : 
+Dv 3394.58 : 3394.58 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+Dv 0 : 
+
