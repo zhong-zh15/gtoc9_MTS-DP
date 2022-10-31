@@ -3,15 +3,8 @@ project(GTOC9_parallel)
 
 set(CMAKE_CXX_STANDARD 14)
 
-
-#set(CMAKE_C_COMPILER   "${CROSS_TOOLCHAIN_PREFIX}mpiicc")
-#set(CMAKE_CXX_COMPILER "${CROSS_TOOLCHAIN_PREFIX}mpiicpc")
-
 set(CMAKE_BUILD_TYPE Release)
-#set(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -ipo -O3 -no-prec-div")
-#set(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS}")
-#SET(CMAKE_BUILD_TYPE "Debug")  
-#SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")  
+
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -std=c++14 ")
 
 set(PROJECT_BINARY_DIR ${PROJECT_SOURCE_DIR}/build)
@@ -28,6 +21,13 @@ file(GLOB SRC_LIST
         "include/orbit_base/*.cpp" "include/orbit_base/*.c" "include/orbit_base/*.h"
         )
 
+FIND_PACKAGE( OpenMP REQUIRED)
+if(OPENMP_FOUND)
+    message("OPENMP FOUND")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 

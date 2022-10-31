@@ -1,10 +1,31 @@
+/****************************************************************************
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*               539977562@qq.com
+* File: DP.cpp
+* Description: the specific implementation of dynamic programming on the GTOC9 problem
+*
+* Log:
+*Version      Date        Author           Description
+* 01        2022-03-15    Zhong Zhang       Create
+****************************************************************************/
+
 #include "DP.h"
 
 #include <set>
 #include <cstring>
 
-//输入 sequence, start_epoch,end_epoch
-//输出 最小质量，不需要存储各个时间，所以会更快一些
+/****************************************************************************
+* Function     : DP_optimization_single_mission_min_m0
+* Description  :
+*                input:
+*					sequence: debris sequence
+*					start_epoch: start epoch (from 0)
+*                   end_epoch: end epoch (from 0)
+*                ouput:
+*					minimum mass
+****************************************************************************/
 DP_info_struct_single_mission DP_optimization_single_mission_min_m0(const vector<int>& sequence, double start_epoch, double end_epoch)// , std::vector<double>& T_single_mission)
 {
 	double step_init = 8.0; //days
@@ -195,9 +216,17 @@ DP_info_struct_single_mission DP_optimization_single_mission_min_m0(const vector
 	return dp_info_temp;
 }
 
-
-//输入 sequence, start_epoch,end_epoch
-//输出 最小质量，T_single_mission：单个任务的时间
+/****************************************************************************
+* Function     : DP_optimization_single_mission
+* Description  :
+*                input:
+*					sequence: debris sequence
+*					start_epoch: start epoch (from 0)
+*                   end_epoch: end epoch (from 0)
+*                ouput:
+*					minimum mass
+*					T_single_mission: time for a single task
+****************************************************************************/
 vector<DP_info_struct_single_mission> DP_optimization_single_mission(const vector<int>& sequence, double start_epoch, double end_epoch, std::vector<double>& T_single_mission)
 {
 	double step_init = 8.0; //days
@@ -376,12 +405,9 @@ vector<DP_info_struct_single_mission> DP_optimization_single_mission(const vecto
 	return dp_info_single_mission;
 }
 
-
-
-
 /****************************************************************************
 * Function     : DP_optimization_all_mission
-* Discription  :
+* Description  :
 *                input:
 *					sequence: debris sequence
 *					start_epoch: start epoch (from 0)

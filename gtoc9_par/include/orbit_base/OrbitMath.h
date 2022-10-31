@@ -1,3 +1,15 @@
+/****************************************************************************
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*               539977562@qq.com
+* File: OrbitMath.h
+* Description: basic math functions. This is developed by Fanghua Jiang
+*
+* Log:
+*Version      Date        Author           Description
+****************************************************************************/
+
 #ifndef _ORBITMATH_H_
 #define _ORBITMATH_H_
 #include <math.h>
@@ -5,13 +17,28 @@
 #include"Constant.h"
 #include <vector>
 
-//将向量A的值赋给B
+/****************************************************************************
+* Function     : V_Copy
+* Description  : assign the value of vector A to vector B
+*                input:
+*					A: vector
+*					N: vector dimension
+*                ouput:
+*					B: vector 
+****************************************************************************/
 template<class T> inline void V_Copy(T* B, const T* A, int N)
 {
 	for(int I_=0;I_<N;I_++) B[I_]=A[I_];
 }
 
-//将三个值依次赋给B
+/****************************************************************************
+* Function     : V_Copy
+* Description  : assign the three values x, y, z, to B in turn
+*                input:
+*					x, y, z: three values
+*                ouput:
+*					B: vector
+****************************************************************************/
 template<class T> inline void V_Copy(T* B, T x, T y, T z)
 {
 	B[0]=x;
@@ -19,7 +46,14 @@ template<class T> inline void V_Copy(T* B, T x, T y, T z)
 	B[2]=z;
 }
 
-//将六个值依次赋给B
+/****************************************************************************
+* Function     : V_Copy
+* Description  : assign the six values x, y, z, vx, vy, vz to B in turn
+*                input:
+*					x, y, z, vx, vy, vz: six values
+*                ouput:
+*					B: vector
+****************************************************************************/
 template<class T> inline void V_Copy(T* B, T x, T y, T z, T vx, T vy, T vz)
 {
 	B[0]=x;
@@ -30,68 +64,166 @@ template<class T> inline void V_Copy(T* B, T x, T y, T z, T vx, T vy, T vz)
 	B[5]=vz;
 }
 
-//向量B与A每个元素都相等时返回真
+/****************************************************************************
+* Function     : V_BoolEqua
+* Description  : returns true if every element of vector B and vector A are equal
+*                input:
+*     				B: vector
+*					A: vector 
+*				    N: vector dimension
+*                ouput:
+*     				return value: 1 or 0
+****************************************************************************/
 template<class T> inline bool V_BoolEqua(const T* B, const T* A, int N)
 {
 	for(int I_=0;I_<N;I_++)	if(B[I_]!=A[I_])return false;
 	return true;
 }
 
-//B[i]=-A[i]
+/****************************************************************************
+* Function     : V_Opposite
+* Description  : assign vector -A to vector B, B[i]=-A[i] 
+*                input:
+*     				A: vector
+*					N: vector dimension
+*                ouput:
+*     				B: vector
+****************************************************************************/
 template<class T> inline void V_Opposite(T* B, const T* A, int N)
 {
 	for(int I_=0;I_<N;I_++) B[I_]=-A[I_];
 }
 
-//向量C[i]=A[i]+B[i]
+/****************************************************************************
+* Function     : V_Add
+* Description  : assign vector A+B to C, C[i]=A[i]+B[i]
+*                input:
+*     				A: vector
+*					B: vector
+*					N: vector dimension
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Add(T* C, const T* A, const T* B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A[I_]+B[I_];	
 }
 
-//向量C[i]=B[i]+A
+/****************************************************************************
+* Function     : V_Add
+* Description  : each element of vector B plus number A equals vector C, C[i]=B[i]+A
+*                input:
+*					B: vector
+*     				A: number
+*					N: dimension of vector B
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Add(T* C, const T* B, T A, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A+B[I_];	
 }
 
-//向量C[i]=A[i]-B[i]
+/****************************************************************************
+* Function     : V_Minus
+* Description  : assign vector A-B to vector C, C[i]=A[i]-B[i]
+*                input:
+*     				A: vector
+*					B: vector
+*					N: vector dimension
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Minus(T* C, const T* A, const T* B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A[I_]-B[I_];	
 }
 
-//向量C[i]=A[i]-B
+/****************************************************************************
+* Function     : V_Minus
+* Description  : each element of vector A minus number B equals vector C, C[i]=A[i]-B
+*                input:
+*					A: vector
+*     				B: number
+*					N: dimension of vector A
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Minus(T* C, const T* A, T B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A[I_]-B;
 }
 
-//向量C[i]=A[i]*B[i]
+/****************************************************************************
+* Function     : V_Multi
+* Description  : for vector C, C[i]=A[i]*B[i]
+*                input:
+*					A: vector
+*     				B: vector
+*					N: dimension of vector A, B 
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Multi(T* C, const T* A, const T* B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A[I_]*B[I_];	
 }
 
-//向量C[i]=A[i]*B
+/****************************************************************************
+* Function     : V_Multi
+* Description  : for vector C, C[i]=A[i]*B
+*                input:
+*					A: vector
+*     				B: number
+*					N: dimension of vector A
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Multi(T* C, const T* A, T B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=B*A[I_];
 }
 
-//向量C[i]=A[i]/B[i]
+/****************************************************************************
+* Function     : V_Divid
+* Description  : for vector C, C[i]=A[i]/B[i]
+*                input:
+*					A: vector
+*     				B: vector
+*					N: dimension of vector A, B
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Divid(T* C, const T* A, const T* B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A[I_]/B[I_];	
 }
 
-//向量C[i]=A[i]/B
+/****************************************************************************
+* Function     : V_Divid
+* Description  : for vector C, C[i]=A[i]/B
+*                input:
+*					A: vector
+*     				B: number
+*					N: dimension of vector A
+*                ouput:
+*     				C: vector
+****************************************************************************/
 template<class T> inline void V_Divid(T* C, const T* A, T B, int N)
 {
 	for(int I_=0;I_<N;I_++) C[I_]=A[I_]/B;
 }
 
-//求内积
+/****************************************************************************
+* Function     : V_Dot
+* Description  : find the inner product of vector A and vector B
+*                input:
+*					A: vector
+*     				B: vector
+*					N: dimension of vector A, B 
+*                ouput:
+*     				return value: value of inner product
+****************************************************************************/
 template<class T> inline T V_Dot(const T* A, const T* B, int N)
 {
 	T result=0;
@@ -99,7 +231,15 @@ template<class T> inline T V_Dot(const T* A, const T* B, int N)
 	return result;
 }
 
-//求外积C=AXB,不能用V_Cross(B,B,A)或V_Cross(B,A,B)
+/****************************************************************************
+* Function     : V_Cross
+* Description  : find the outer product of vector A and vector B, cannot use V_Cross(B,B,A) or V_Cross(B,A,B)
+*                input:
+*					A: vector
+*     				B: vector
+*                ouput:
+*     				C: vector, C=AXB
+****************************************************************************/
 template<class T> inline void V_Cross(T* C, const T* A, const T* B)
 {
 	C[0]=A[1]*B[2]-A[2]*B[1];
@@ -107,7 +247,15 @@ template<class T> inline void V_Cross(T* C, const T* A, const T* B)
 	C[2]=A[0]*B[1]-A[1]*B[0];
 }
 
-//求A[i]=|B[i]|
+/****************************************************************************
+* Function     : V_Absol
+* Description  : find the absolute value of each element of vector B, 
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				A: vector, A[i]=|B[i]|
+****************************************************************************/
 template<class T> inline void V_Absol(T* A, const T* B, int N)
 {
 	for(int I_=0;I_<N;I_++)
@@ -119,7 +267,15 @@ template<class T> inline void V_Absol(T* A, const T* B, int N)
 	}
 }
 
-//求1-范数
+/****************************************************************************
+* Function     : V_Norm1
+* Description  : find the 1-norm of vector B,
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of 1-norm of vector B
+****************************************************************************/
 template<class T> inline T V_Norm1(const T* B, int N)
 {
 	T result=0;
@@ -133,14 +289,30 @@ template<class T> inline T V_Norm1(const T* B, int N)
 	return result;
 }
 
-//求2-范数
+/****************************************************************************
+* Function     : V_Norm2
+* Description  : find the 2-norm of vector B,
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of 2-norm of vector B
+****************************************************************************/
 template<class T> inline T V_Norm2(const T* B, int N)
 {
 	T result=V_Dot(B,B,N);
 	return sqrt(result);
 }
 
-//求无穷-范数
+/****************************************************************************
+* Function     : V_NormInf
+* Description  : find the infinite-norm of vector B,
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of infinite-norm of vector B
+****************************************************************************/
 template<class T> inline T V_NormInf(const T* B, int N)
 {
 	T result=0;
@@ -152,7 +324,15 @@ template<class T> inline T V_NormInf(const T* B, int N)
 	return result;
 }
 
-//求最大元素
+/****************************************************************************
+* Function     : V_Max
+* Description  : find the largest element in the vector B
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of the largest element
+****************************************************************************/
 template<class T> inline T V_Max(const T* B, int N)
 {
 	T result=B[0];
@@ -160,7 +340,16 @@ template<class T> inline T V_Max(const T* B, int N)
 	return result;
 }
 
-//求最大元素
+/****************************************************************************
+* Function     : V_Max
+* Description  : find the maximum element in the vector B
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of the largest element
+*				    index: numerical order of the largest element
+****************************************************************************/
 template<class T> inline T V_Max(int & index, const T* B, int N)
 {
 	T maximal=B[0];
@@ -169,7 +358,15 @@ template<class T> inline T V_Max(int & index, const T* B, int N)
 	return maximal;
 }
 
-//求最小元素
+/****************************************************************************
+* Function     : V_Min
+* Description  : find the minimum element in the vector B
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of the minimum element
+****************************************************************************/
 template<class T> inline T V_Min(const T* B, int N)
 {
 	T result=B[0];
@@ -177,7 +374,16 @@ template<class T> inline T V_Min(const T* B, int N)
 	return result;
 }
 
-//求最小元素
+/****************************************************************************
+* Function     : V_Min
+* Description  : find the minimum element in the vector B
+*                input:
+*     				B: vector
+*					N: dimension of vector B
+*                ouput:
+*     				return value: value of the minimum element
+*				    index: numerical order of the minimum element
+****************************************************************************/
 template<class T> inline T V_Min(int& index, const T* B, int N)
 {
 	T minimal=B[0];
@@ -186,7 +392,14 @@ template<class T> inline T V_Min(int& index, const T* B, int N)
 	return minimal;
 }
 
-//符号函数
+/****************************************************************************
+* Function     : Sign
+* Description  : sign function
+*                input:
+*     				InputValue: number
+*                ouput:
+*     				return value: 1 or -1 or 0
+****************************************************************************/
 template<class T> inline int Sign(const T & InputValue)
 {
 	if(InputValue>0)
@@ -197,289 +410,109 @@ template<class T> inline int Sign(const T & InputValue)
 		return 0;
 }
 
-//求最大值
+/****************************************************************************
+* Function     : Max
+* Description  : find the maximum of two numbers
+*                input:
+*     				x: number
+*					y: number
+*                ouput:
+*     				return value: the maximum of x and y
+****************************************************************************/
 template <class T>
 inline T Max (T x, T y) 
 { 
 	return (x>y)?x:y;
 }
 
-
-//求最小值
+/****************************************************************************
+* Function     : Min
+* Description  : find the minimum of two numbers
+*                input:
+*     				x: number
+*					y: number
+*                ouput:
+*     				return value: the minimum of x and y
+****************************************************************************/
 template <class T>
 inline T Min (T x, T y) 
 {
 	return (x<y)?x:y;
 }
 
-template <class T> inline T CopySign (T x, T y)
-{
-	return (y < 0) ? ((x < 0) ? x : -x) : ((x > 0) ? x : -x);
-}
-
-template <class T> void PaiXu(T* p, int N)
-{
-
-	T tmp = 0; 
-	for (int i=0 ;i<N ;i++ ) 
-	{ 
-		for (int j=0 ;j<N-1-i ;j++ ) 
-		{ 
-			if (p[j] > p[j+1]) 
-			{ 
-				tmp = p[j]; 
-				p[j] = p[j+1]; 
-				p[j+1] = tmp;
-			}
-		} 
-	}
-}
-
-
-
-//坐标(x,y)对应的相角,[0,2*PI).
+/****************************************************************************
+* Function     : NiceAngle
+* Description  : calculate the quadrant angle corresponding to the coordinates (x, y), [0,2*PI)
+*                input:
+*     				x: number
+*					y: number
+*                ouput:
+*     				return value: the quadrant angle, [0,2*PI)
+****************************************************************************/
 inline double NiceAngle(double x, double y)
 {
-/*	if(x<=-EPSILON)
-		return PI-atan(-y/x);
-	else if(x>=EPSILON)
-	{
-		if(y<-EPSILON)
-			return 2.0*PI+atan(y/x);
-		else
-			return atan(y/x);
-	}	
-	else
-	{
-		if(y>EPSILON)	return 0.5*PI;
-		else if(y<-EPSILON) return 1.5*PI;
-		else return 0.0;
-	}*/
 	double temp=atan2(y, x);
 	if(temp<0.0)
 		temp+=2*DPI;
 	return temp;
 }
 
-//将角度值alpha转换到[0,2*PI)中.
+/****************************************************************************
+* Function     : NiceAngle
+* Description  : convert any angle size to [0,2*PI)
+*                input:
+*     				alpha: angle (unit: rad)
+*                ouput:
+*     				return value: [0,2*PI)
+****************************************************************************/
 inline double NiceAngle(double alpha)
 {
-/*	double x=cos(alpha);
-	double y=sin(alpha);
-	return NiceAngle(x, y);*/
 	double temp=fmod(alpha, 2.0*DPI);
 	if(temp<0.0)
 		temp+=2.0*DPI;
 	return temp;
 }
 
-inline double NiceAngle_pi2(double alpha)
-{
-	/*	double x=cos(alpha);
-		double y=sin(alpha);
-		return NiceAngle(x, y);*/
-	double temp = fmod(alpha, 2.0 * DPI);
-	if (temp < 0.0)
-		temp += 2.0 * DPI;
-	return temp;
-}
-
-//取最近接x的整数,返回double型.
-inline double ANINT(double x)
-{
-	double left=fmod(x, 1.0);
-	if(fabs(left)<0.5)
-		return x-left;
-	else if(left>=0.5)
-		return x-left+1;
-	else
-		return x-left-1;
-}
-
-//取最近接x的整数,返回int型.
-inline int NINT(double x)
-{
-	double left=ANINT(x);
-	return (int)left;
-}
-
+/****************************************************************************
+* Function     : atanh
+* Description  : atanh function
+*                input:
+*     				x: number
+*                ouput:
+*     				return value: atanh(x)
+****************************************************************************/
 inline double atanh(double x)
 {
 	assert(fabs(x)<1.0);
 	return 0.5*log((1.0+x)/(1.0-x));
 }
 
+/****************************************************************************
+* Function     : asinh
+* Description  : asinh function
+*                input:
+*     				x: number
+*                ouput:
+*     				return value: asinh(x)
+****************************************************************************/
 inline double asinh(double x)
 {
 	
 	return log(x+sqrt(x*x+1.0));
 }
 
+/****************************************************************************
+* Function     : acosh
+* Description  : acosh function
+*                input:
+*     				x: number
+*                ouput:
+*     				return value: acosh(x)
+****************************************************************************/
 inline double acosh(double x)
 {	
 	assert(x>=1.0);
 	return log(x+sqrt(x*x-1.0));
-}
-
-//二维指针数组表示
-//释放内存
-template<class T> inline void M_Dele(T** B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) {delete[] B[I_];B[I_]=NULL;}
-	delete[] B;
-	B=NULL;
-}
-//将A的值赋给B
-template<class T> inline void M_Copy(T** B, T** A, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) B[I_][J_]=A[I_][J_];
-}
-//将九个值依次赋给B
-template<class T> inline void M_Copy(T** B, T a11, T a12, T a13, T a21, T a22, T a23, T a31, T a32, T a33)
-{
-	B[0][0]=a11;
-	B[0][1]=a12;
-	B[0][2]=a13;
-	B[1][0]=a21;
-	B[1][1]=a22;
-	B[1][2]=a23;
-	B[2][0]=a31;
-	B[2][1]=a32;
-	B[2][2]=a33;
-}
-
-//将数组A的值逐个赋给B
-template<class T> inline void M_Copy(T** B, T* A, int N, int M)
-{
-	int i=0;
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) B[I_][J_]=A[i++];
-}
-//矩阵B与A每个元素都相等时返回真
-template<class T> inline bool M_BoolEqua(T** B, T** A, int N, int M)
-{
-	for(int I_=0;I_<N;I_++)	for(int J_=0;J_<M;J_++) if(B[I_][J_]!=A[I_][J_])return false;
-	return true;
-}
-//B[i][j]=-A[i][j]
-template<class T> inline void M_Opposite(T** B, T** A, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) B[I_][J_]=-A[I_][J_];
-}
-//B[i][j]=A[j][i]
-template<class T> inline void M_Tranpose(T** B, T** A, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) B[I_][J_]=A[J_][I_];
-}
-
-//C[i][j]=A[i][j]+B[i][j]
-template<class T> inline void M_Add(T** C, T** A, T** B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) C[I_][J_]=A[I_][J_]+B[I_][J_];	
-}
-
-//C[i][j]=B[i][j]+A
-template<class T> inline void M_Add(T** C, T** B, T A, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) C[I_][J_]=A+B[I_][J_];	
-}
-//C[i][j]=A[i][j]-B[i][j]
-template<class T> inline void M_Minus(T** C, T** A, T** B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) C[I_][J_]=A[I_][J_]-B[I_][J_];	
-}
-//C[i][j]=A[i][k]*B[k][j]
-template<class T> inline void M_Multi(T** C, T** A, T** B, int N, int M, int K)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++)
-	{
-		C[I_][J_]=0;
-		for(int i=0;i<K;i++){ C[I_][J_]+=A[I_][i]*B[i][J_];	}
-	}
-}
-//C[i]=A[i][j]*B[j]
-template<class T> inline void M_Multi(T* C, T** A, T* B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++)
-	{
-		C[I_]=0;
-		for(int J_=0;J_<M;J_++)	C[I_]+=A[I_][J_]*B[J_];
-	}
-}
-//C[i][j]=A[i][j]*B
-template<class T> inline void M_Multi(T** C, T** A, T B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) C[I_][J_]=B*A[I_][J_];
-}
-
-
-//C[i][j]=A[i][j]/B[i][j]
-template<class T> inline void M_Divid(T** C, T** A, T** B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) C[I_][J_]=A[I_][J_]/B[I_][J_];	
-}
-
-//求A[i][j]=|B[i][j]|
-template<class T> inline void M_Absol(T** A, T** B, int N, int M)
-{
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++)
-	{
-		if(B[I_][J_]>=0)
-			A[I_][J_]=B[I_][J_];
-		else
-			A[I_][J_]=-B[I_][J_];
-	}
-}
-//求最大元素
-template<class T> inline T M_Max(T** B, int N, int M)
-{
-	T result=B[0][0];
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) if(B[I_][J_]>result) result=B[I_][J_];
-	return result;
-}
-
-
-//求最小元素
-template<class T> inline T M_Min(T** B, int N, int M)
-{
-	T result=B[0][0];
-	for(int I_=0;I_<N;I_++) for(int J_=0;J_<M;J_++) if(B[I_][J_]<result) result=B[I_][J_];
-	return result;
-}
-
-//求逆
-template<class T> inline void swaprows(T** A, int row0, int row1)
-{
-    T* temp=NULL;
-    temp=A[row0];
-    A[row0]=A[row1];
-    A[row1]=temp;
-}
-
-//	gjelim 
-void M_Inverse(double** B, double** A, int dim, double** wa); 
-
-////Lagrange插值函数
-double LagInterp(double *x, double* y, int order, double t);
-
-//二分查找
-template <typename T> inline int binSearch(const std::vector<T> &S, T const& e, int lo, int hi)
-{
-	while (lo < hi)
-	{
-		int mi = (lo + hi) >> 1;
-		e < S[mi] ? hi = mi : lo = mi + 1;
-	}
-	return --lo;
-}
-//二分查找
-template <typename T> inline int binSearch(T* S, T const& e, int lo, int hi)
-{
-	while (lo < hi)
-	{
-		int mi = (lo + hi) >> 1;
-		e < S[mi] ? hi = mi : lo = mi + 1;
-	}
-	return --lo;
 }
 
 #endif

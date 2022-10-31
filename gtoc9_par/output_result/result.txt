@@ -1,15 +1,15 @@
 Removal total num and Total dv:  10 495.05
 Removal total num and Total dv:  10 884.171
 Removal total num and Total J:  10 884.171
-Removal num 1 : 103 
-Removal num 1 : 111 
-Removal num 1 : 7 
+Removal num 1 : 38 
+Removal num 1 : 64 
+Removal num 1 : 77 
 Removal num 2 : 8 43 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
+Removal num 1 : 105 
+Removal num 1 : 0 
+Removal num 1 : 56 
+Removal num 1 : 50 
+Removal num 1 : 109 
 Epoch  2305~2305 : 2305 
 Epoch  2341~2341 : 2341 
 Epoch  2377~2377 : 2377 
@@ -29,22 +29,22 @@ Dv 0 :
 Dv 0 : 
 Dv 0 : 
 
-Removal total num and Total dv:  11 495.05
-Removal total num and Total dv:  11 504.443
-Removal total num and Total J:  11 504.443
-Removal num 2 : 103 38 
-Removal num 1 : 111 
-Removal num 2 : 7 82 
-Removal num 1 : 8 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
+Removal total num and Total dv:  11 495.076
+Removal total num and Total dv:  11 890.444
+Removal total num and Total J:  11 890.444
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 1 : 77 
+Removal num 2 : 8 43 
+Removal num 1 : 105 
+Removal num 1 : 0 
+Removal num 1 : 56 
+Removal num 1 : 50 
+Removal num 1 : 109 
 Epoch  2113~2143 : 2113 2118 2143 
-Epoch  2287~2287 : 2287 
-Epoch  2323~2353 : 2323 2328 2353 
-Epoch  2767~2767 : 2767 
+Epoch  2341~2341 : 2341 
+Epoch  2377~2377 : 2377 
+Epoch  2413~2443 : 2413 2418 2443 
 Epoch  2803~2803 : 2803 
 Epoch  2839~2839 : 2839 
 Epoch  2875~2875 : 2875 
@@ -52,135 +52,321 @@ Epoch  2911~2911 : 2911
 Epoch  2947~2947 : 2947 
 Dv 2038.32 : 2038.32 
 Dv 0 : 
-Dv 1547.46 : 1547.46 
 Dv 0 : 
+Dv 6866.92 : 6866.92 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 
-Removal total num and Total dv:  12 495.077
-Removal total num and Total dv:  12 504.809
-Removal total num and Total J:  12 504.809
-Removal num 2 : 103 38 
-Removal num 2 : 111 42 
-Removal num 2 : 7 82 
-Removal num 1 : 8 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
+Removal total num and Total dv:  12 495.104
+Removal total num and Total dv:  12 1947.79
+Removal total num and Total J:  12 1947.79
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 2 : 77 45 
+Removal num 2 : 8 43 
+Removal num 1 : 105 
+Removal num 1 : 0 
+Removal num 1 : 56 
+Removal num 1 : 50 
+Removal num 1 : 109 
 Epoch  2083~2113 : 2083 2088 2113 
-Epoch  2203~2233 : 2203 2208 2233 
-Epoch  2323~2353 : 2323 2328 2353 
-Epoch  2767~2767 : 2767 
+Epoch  2551~2551 : 2551 
+Epoch  2587~2617 : 2587 2592 2617 
+Epoch  2653~2683 : 2653 2658 2683 
 Epoch  2803~2803 : 2803 
 Epoch  2839~2839 : 2839 
 Epoch  2875~2875 : 2875 
 Epoch  2911~2911 : 2911 
 Epoch  2947~2947 : 2947 
 Dv 2009.29 : 2009.29 
-Dv 714.215 : 714.215 
-Dv 1547.46 : 1547.46 
 Dv 0 : 
+Dv 7522.24 : 7522.24 
+Dv 8016.5 : 8016.5 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 
-Removal total num and Total dv:  13 495.111
-Removal total num and Total dv:  13 881.934
-Removal total num and Total J:  13 881.934
-Removal num 2 : 103 38 
-Removal num 2 : 111 42 
-Removal num 3 : 82 70 7 
+Removal total num and Total dv:  13 495.131
+Removal total num and Total dv:  13 1210.79
+Removal total num and Total J:  13 1210.79
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 3 : 77 45 82 
 Removal num 1 : 8 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
+Removal num 1 : 105 
+Removal num 2 : 0 89 
+Removal num 1 : 56 
+Removal num 1 : 50 
+Removal num 1 : 109 
 Epoch  2053~2083 : 2053 2058 2083 
-Epoch  2173~2203 : 2173 2178 2203 
-Epoch  2293~2353 : 2293 2298 2323 2328 2353 
-Epoch  2767~2767 : 2767 
-Epoch  2803~2803 : 2803 
-Epoch  2839~2839 : 2839 
+Epoch  2629~2629 : 2629 
+Epoch  2665~2725 : 2665 2670 2695 2700 2725 
+Epoch  2761~2761 : 2761 
+Epoch  2797~2797 : 2797 
+Epoch  2833~2839 : 2833 2838 2839 
 Epoch  2875~2875 : 2875 
 Epoch  2911~2911 : 2911 
 Epoch  2947~2947 : 2947 
 Dv 1980.25 : 1980.25 
-Dv 703.953 : 703.953 
-Dv 6812.06 : 4147.64 2664.42 
+Dv 0 : 
+Dv 7621.3 : 7005.53 615.763 
 Dv 0 : 
 Dv 0 : 
-Dv 0 : 
+Dv 3983.58 : 3983.58 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 
-Removal total num and Total dv:  14 495.148
-Removal total num and Total dv:  14 1664.19
-Removal total num and Total J:  14 1664.19
-Removal num 2 : 103 38 
-Removal num 2 : 111 42 
-Removal num 4 : 82 70 7 41 
-Removal num 1 : 8 
-Removal num 1 : 75 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
+Removal total num and Total dv:  14 495.18
+Removal total num and Total dv:  14 2334.31
+Removal total num and Total J:  14 2334.31
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 3 : 77 45 82 
+Removal num 2 : 8 43 
+Removal num 1 : 105 
+Removal num 2 : 0 89 
+Removal num 1 : 56 
+Removal num 1 : 50 
+Removal num 1 : 109 
 Epoch  2023~2053 : 2023 2028 2053 
-Epoch  2143~2173 : 2143 2148 2173 
-Epoch  2263~2353 : 2263 2268 2293 2298 2323 2328 2353 
-Epoch  2767~2767 : 2767 
-Epoch  2803~2803 : 2803 
-Epoch  2839~2839 : 2839 
+Epoch  2575~2575 : 2575 
+Epoch  2611~2671 : 2611 2616 2641 2646 2671 
+Epoch  2707~2737 : 2707 2712 2737 
+Epoch  2773~2773 : 2773 
+Epoch  2809~2839 : 2809 2814 2839 
 Epoch  2875~2875 : 2875 
 Epoch  2911~2911 : 2911 
 Epoch  2947~2947 : 2947 
 Dv 1951.22 : 1951.22 
-Dv 693.691 : 693.691 
-Dv 8471.7 : 4068.1 2612.73 1790.87 
 Dv 0 : 
+Dv 7961.88 : 7363.25 598.63 
+Dv 8275.2 : 8275.2 
 Dv 0 : 
-Dv 0 : 
+Dv 1782.71 : 1782.71 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
 
-Removal total num and Total dv:  15 495.182
-Removal total num and Total dv:  15 1946.4
-Removal total num and Total J:  15 1946.4
-Removal num 2 : 103 38 
-Removal num 2 : 111 42 
-Removal num 4 : 45 70 7 41 
-Removal num 1 : 8 
-Removal num 2 : 75 82 
-Removal num 1 : 31 
-Removal num 1 : 101 
-Removal num 1 : 97 
-Removal num 1 : 102 
+Removal total num and Total dv:  15 495.229
+Removal total num and Total dv:  15 4488.87
+Removal total num and Total J:  15 4488.87
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 3 : 77 45 82 
+Removal num 2 : 8 43 
+Removal num 2 : 105 104 
+Removal num 2 : 0 89 
+Removal num 1 : 56 
+Removal num 1 : 50 
+Removal num 1 : 109 
 Epoch  1993~2023 : 1993 1998 2023 
-Epoch  2113~2143 : 2113 2118 2143 
-Epoch  2233~2323 : 2233 2238 2263 2268 2293 2298 2323 
-Epoch  2467~2467 : 2467 
-Epoch  2503~2533 : 2503 2508 2533 
-Epoch  2839~2839 : 2839 
+Epoch  2353~2353 : 2353 
+Epoch  2389~2449 : 2389 2394 2419 2424 2449 
+Epoch  2485~2515 : 2485 2490 2515 
+Epoch  2551~2581 : 2551 2556 2581 
+Epoch  2617~2647 : 2617 2622 2647 
 Epoch  2875~2875 : 2875 
 Epoch  2911~2911 : 2911 
 Epoch  2947~2947 : 2947 
 Dv 1922.18 : 1922.18 
-Dv 683.429 : 683.429 
-Dv 8778.59 : 4461.67 2561.05 1755.88 
 Dv 0 : 
-Dv 3394.58 : 3394.58 
+Dv 9362.13 : 8833.9 528.23 
+Dv 7211.76 : 7211.76 
+Dv 8836.15 : 8836.15 
+Dv 1472.01 : 1472.01 
 Dv 0 : 
 Dv 0 : 
 Dv 0 : 
+
+Removal total num and Total dv:  16 495.268
+Removal total num and Total dv:  16 833.992
+Removal total num and Total J:  16 833.992
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 2 : 77 4 
+Removal num 1 : 8 
+Removal num 3 : 108 24 105 
+Removal num 3 : 0 89 1 
+Removal num 1 : 56 
+Removal num 2 : 50 46 
+Removal num 1 : 109 
+Epoch  1963~1993 : 1963 1968 1993 
+Epoch  2245~2245 : 2245 
+Epoch  2281~2311 : 2281 2286 2311 
+Epoch  2347~2347 : 2347 
+Epoch  2383~2443 : 2383 2388 2413 2418 2443 
+Epoch  2533~2593 : 2533 2538 2563 2568 2593 
+Epoch  2737~2737 : 2737 
+Epoch  2773~2803 : 2773 2778 2803 
+Epoch  2947~2947 : 2947 
+Dv 1893.15 : 1893.15 
+Dv 0 : 
+Dv 4132.31 : 4132.31 
+Dv 0 : 
+Dv 5731.35 : 806.689 4924.66 
+Dv 4399.49 : 1336.1 3063.39 
+Dv 0 : 
+Dv 3914 : 3914 
+Dv 0 : 
+
+Removal total num and Total dv:  17 495.316
+Removal total num and Total dv:  17 1113.24
+Removal total num and Total J:  17 1113.24
+Removal num 2 : 38 103 
+Removal num 1 : 64 
+Removal num 2 : 77 4 
+Removal num 2 : 8 43 
+Removal num 3 : 108 24 105 
+Removal num 3 : 0 89 1 
+Removal num 1 : 56 
+Removal num 2 : 50 46 
+Removal num 1 : 109 
+Epoch  1933~1963 : 1933 1938 1963 
+Epoch  2161~2161 : 2161 
+Epoch  2197~2227 : 2197 2202 2227 
+Epoch  2263~2293 : 2263 2268 2293 
+Epoch  2383~2443 : 2383 2388 2413 2418 2443 
+Epoch  2533~2593 : 2533 2538 2563 2568 2593 
+Epoch  2737~2737 : 2737 
+Epoch  2773~2803 : 2773 2778 2803 
+Epoch  2947~2947 : 2947 
+Dv 1864.12 : 1864.12 
+Dv 0 : 
+Dv 4902.98 : 4902.98 
+Dv 6148.59 : 6148.59 
+Dv 5731.35 : 806.689 4924.66 
+Dv 4399.49 : 1336.1 3063.39 
+Dv 0 : 
+Dv 3914 : 3914 
+Dv 0 : 
+
+Removal total num and Total dv:  18 495.355
+Removal total num and Total dv:  18 6251.5
+Removal total num and Total J:  18 6251.5
+Removal num 3 : 38 103 95 
+Removal num 1 : 64 
+Removal num 3 : 77 45 82 
+Removal num 2 : 8 43 
+Removal num 2 : 105 104 
+Removal num 3 : 0 89 1 
+Removal num 1 : 56 
+Removal num 2 : 50 46 
+Removal num 1 : 109 
+Epoch  2317~2377 : 2317 2322 2347 2352 2377 
+Epoch  2413~2413 : 2413 
+Epoch  2449~2509 : 2449 2454 2479 2484 2509 
+Epoch  2545~2575 : 2545 2550 2575 
+Epoch  2611~2641 : 2611 2616 2641 
+Epoch  2677~2737 : 2677 2682 2707 2712 2737 
+Epoch  2773~2773 : 2773 
+Epoch  2809~2839 : 2809 2814 2839 
+Epoch  2947~2947 : 2947 
+Dv 8883.73 : 2235.76 6647.97 
+Dv 0 : 
+Dv 8983.68 : 8436.43 547.25 
+Dv 7499.15 : 7499.15 
+Dv 9265.79 : 9265.79 
+Dv 5156.95 : 1569.1 3587.85 
+Dv 0 : 
+Dv 4229.53 : 4229.53 
+Dv 0 : 
+
+Removal total num and Total dv:  19 495.404
+Removal total num and Total dv:  19 6274.36
+Removal total num and Total J:  19 6274.36
+Removal num 3 : 38 103 95 
+Removal num 1 : 64 
+Removal num 3 : 77 45 82 
+Removal num 2 : 8 43 
+Removal num 2 : 105 104 
+Removal num 3 : 0 89 1 
+Removal num 2 : 56 106 
+Removal num 2 : 50 97 
+Removal num 1 : 109 
+Epoch  2317~2377 : 2317 2322 2347 2352 2377 
+Epoch  2413~2413 : 2413 
+Epoch  2449~2509 : 2449 2454 2479 2484 2509 
+Epoch  2545~2575 : 2545 2550 2575 
+Epoch  2611~2641 : 2611 2616 2641 
+Epoch  2677~2737 : 2677 2682 2707 2712 2737 
+Epoch  2773~2803 : 2773 2778 2803 
+Epoch  2839~2869 : 2839 2844 2869 
+Epoch  2947~2947 : 2947 
+Dv 8883.73 : 2235.76 6647.97 
+Dv 0 : 
+Dv 8983.68 : 8436.43 547.25 
+Dv 7499.15 : 7499.15 
+Dv 9265.79 : 9265.79 
+Dv 5156.95 : 1569.1 3587.85 
+Dv 4654.96 : 4654.96 
+Dv 509.883 : 509.883 
+Dv 0 : 
+
+Removal total num and Total dv:  20 495.474
+Removal total num and Total dv:  20 6488.48
+Removal total num and Total J:  20 6488.48
+Removal num 3 : 38 103 95 
+Removal num 2 : 64 60 
+Removal num 3 : 77 45 82 
+Removal num 2 : 8 43 
+Removal num 2 : 105 104 
+Removal num 3 : 0 89 1 
+Removal num 2 : 56 106 
+Removal num 2 : 50 97 
+Removal num 1 : 109 
+Epoch  2299~2359 : 2299 2304 2329 2334 2359 
+Epoch  2395~2425 : 2395 2400 2425 
+Epoch  2461~2521 : 2461 2466 2491 2496 2521 
+Epoch  2557~2587 : 2557 2562 2587 
+Epoch  2623~2653 : 2623 2628 2653 
+Epoch  2689~2749 : 2689 2694 2719 2724 2749 
+Epoch  2785~2815 : 2785 2790 2815 
+Epoch  2851~2881 : 2851 2856 2881 
+Epoch  2947~2947 : 2947 
+Dv 8978.22 : 2218.34 6759.88 
+Dv 4305.12 : 4305.12 
+Dv 8907.99 : 8356.93 551.055 
+Dv 7556.63 : 7556.63 
+Dv 9351.72 : 9351.72 
+Dv 5220.07 : 1588.52 3631.55 
+Dv 4724.25 : 4724.25 
+Dv 519.091 : 519.091 
+Dv 0 : 
+
+Removal total num and Total dv:  21 495.547
+Removal total num and Total dv:  21 25637.7
+Removal total num and Total J:  21 25637.7
+Removal num 3 : 38 103 95 
+Removal num 2 : 64 60 
+Removal num 3 : 77 45 82 
+Removal num 3 : 8 43 73 
+Removal num 2 : 105 104 
+Removal num 3 : 0 89 1 
+Removal num 2 : 56 106 
+Removal num 2 : 50 97 
+Removal num 1 : 109 
+Epoch  1975~2035 : 1975 1980 2005 2010 2035 
+Epoch  2071~2101 : 2071 2076 2101 
+Epoch  2137~2197 : 2137 2142 2167 2172 2197 
+Epoch  2233~2293 : 2233 2238 2263 2268 2293 
+Epoch  2383~2413 : 2383 2388 2413 
+Epoch  2503~2563 : 2503 2508 2533 2538 2563 
+Epoch  2653~2683 : 2653 2658 2683 
+Epoch  2773~2803 : 2773 2778 2803 
+Epoch  2947~2947 : 2947 
+Dv 10679.1 : 1904.76 8774.37 
+Dv 6828.24 : 6828.24 
+Dv 10211.2 : 9762.78 448.412 
+Dv 12674.8 : 6004.93 6669.82 
+Dv 7633.17 : 7633.17 
+Dv 4241.69 : 1287.57 2954.13 
+Dv 3962.11 : 3962.11 
+Dv 459.411 : 459.411 
 Dv 0 : 
 

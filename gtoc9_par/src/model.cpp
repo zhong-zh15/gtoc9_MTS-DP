@@ -4,7 +4,7 @@
 				zhong-zh19@mails.tsinghua.edu.cn
 *               539977562@qq.com
 * File: model.cpp
-* Description: calcuation J2 perturbed transfer cost
+* Description: calculation J2 perturbed transfer cost
 * (based on Simple ΔV Approximation for Optimization of Debris-to-Debris Transfers, Hong-Xin Shen and Lorenzo Casalino, Journal of Spacecraft and Rockets 2021 58:2, 575-580)
 *
 * Log:
@@ -16,7 +16,7 @@
 
 /****************************************************************************
 * Function     : domega_init
-* Discription  : calculate omega drift rate of debris
+* Description  : calculate omega drift rate of debris
 *                input:
 *					i: debris ID
 *                ouput:
@@ -24,10 +24,10 @@
 ****************************************************************************/
 double domega_init(int i)
 {
-	const double Re = req;// 6378137.0;													//m 地球赤道半径
-//数据集debris_data
-//0碎片编号 1* 2轨道半长轴(m) 3偏心率 4倾角(rad) 
-//5升交点赤经(rad) 6近地点幅角(rad) 7真近点角(rad) 8雷达反射面积
+	const double Re = req;// 6378137.0;		//Earth's equatorial radius (meter)
+//debris_data
+//[0]: debris ID, [1]*: epoch, [2]: semi-major axis (meter), [3]: eccentricity, [4]: inclination (rad) 
+//[5]: right ascension of the ascending node (rad), [6]: argument of perigee (rad), [7]: true anomaly (rad) [8]: radar reflection area
 	double a = debris_data[i][2];
 	double e = debris_data[i][3];
 	double inc = debris_data[i][4];
@@ -46,7 +46,7 @@ double domega_init(int i)
 
 /****************************************************************************
 * Function     : dOmega_init
-* Discription  : calculate Omega drift rate of debris
+* Description  : calculate Omega drift rate of debris
 *                input:
 *					i: debris ID
 *                ouput:
@@ -54,24 +54,24 @@ double domega_init(int i)
 ****************************************************************************/
 double dOmega_init(int i)
 {
-	const double Re = req;// 6378137.0;													//m 地球赤道半径
-//数据集debris_data
-//0碎片编号 1* 2轨道半长轴(m) 3偏心率 4倾角(rad) 
-//5升交点赤经(rad) 6近地点幅角(rad) 7真近点角(rad) 8雷达反射面积
+	const double Re = req;// 6378137.0;						//Earth's equatorial radius (meter)
+//debris_data
+//[0]: debris ID, [1]*: epoch, [2]: semi-major axis (meter), [3]: eccentricity, [4]: inclination (rad) 
+//[5]: right ascension of the ascending node (rad), [6]: argument of perigee (rad), [7]: true anomaly (rad), [8]: radar reflection area
 	double a = debris_data[i][2];
 	double e = debris_data[i][3];
 	double inc = debris_data[i][4];
 	double OMEGA = debris_data[i][5];
 	double omega = debris_data[i][6];
 
-	double dOmega = -3.0 / 2.0 * J2 * (req / a) * (req / a) / (1.0 - e * e) / (1.0 - e * e) * sqrt(mu / a / a / a) * cos(inc);//碎片i的升交点赤经变化率
+	double dOmega = -3.0 / 2.0 * J2 * (req / a) * (req / a) / (1.0 - e * e) / (1.0 - e * e) * sqrt(mu / a / a / a) * cos(inc);//the rate of change of Omega (W) for the i_th debris
 	dOmega_debris[i] = dOmega;
 	return dOmega;
 }
 
 /****************************************************************************
 * Function     : estimate_dv
-* Discription  : estimate delta v for debris-to-debris transfer, from debris_now to target starting from tnow;
+* Description  : estimate delta v for debris-to-debris transfer, from debris_now to target starting from tnow;
 *                it will compute the suitable departure epoch (Ts) and arrival epoch (Tf)
 *                input:
 *					debris_now: debris now ID
@@ -86,11 +86,11 @@ double dOmega_init(int i)
 ****************************************************************************/
 double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf)
 {
-	double ts = (tnow  + 5.0) * Day2Second;						//转移起始时间ts设置为当前时间tnow的5天后
-	double tf_low = ts + 1.0 * 86400.0;							//tf的下界，转移起始时间ts后的1天
-	double tf_high = (tnow + 30.0)* Day2Second;					//tf的上界，当前时间tnow后的30天
+	double ts = (tnow  + 5.0) * Day2Second;						//the transfer start time (ts) is set to 5 days after the current time (tnow)
+	double tf_low = ts + 1.0 * 86400.0;							//lower bound of tf, 1 day after transfer start time (ts)
+	double tf_high = (tnow + 30.0)* Day2Second;					//the upper bound of tf, 30 days after the current time (tnow)
 	
-	//计算转移至unvisited中碎片的速度增量估计值Estimatedv
+	//calculates an estimate of the velocity increment (Estimatedv) when moving to a unvisited debris
 	double a_s = debris_data[debris_now][2];
 	double i_s = debris_data[debris_now][4];
 	double Omega_s0 = debris_data[debris_now][5];
@@ -103,40 +103,41 @@ double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& 
 	double dOmega_s = -3.0 / 2.0 * J2 * (req / a_s) * (req / a_s) * sqrt(mu / a_s / a_s / a_s) * cos(i_s);
 	double dOmega_f = -3.0 / 2.0 * J2 * (req / a_f) * (req / a_f) * sqrt(mu / a_f / a_f / a_f) * cos(i_f);
 
-	//delta_Omega_low与delta_Omega_high表示升交点赤经差的变化范围
-	double delta_Omega_low  = Omega_f0 + dOmega_f * tf_low  - Omega_s0 - dOmega_s * tf_low;		//tf_low 时刻，碎片debris_now与碎片unvisited[j]升交点赤经的差值
-	double delta_Omega_high = Omega_f0 + dOmega_f * tf_high - Omega_s0 - dOmega_s * tf_high;	//tf_high时刻，碎片debris_now与碎片unvisited[j]升交点赤经的差值
+	//delta_Omega_low and delta_Omega_high indicate the lower and upper limits of the difference in right ascension of the ascending node
+	double delta_Omega_low  = Omega_f0 + dOmega_f * tf_low  - Omega_s0 - dOmega_s * tf_low;		//at tf_low time, the difference between Omega (W) of debris_now and debris unvisited[j] 
+	double delta_Omega_high = Omega_f0 + dOmega_f * tf_high - Omega_s0 - dOmega_s * tf_high;	//at tf_high time, the difference between Omega (W) of debris_now and debris unvisited[j] 
 
 	int delta_Omega_low_mod2pi = floor(delta_Omega_low / 2.0 / pi);
 	int delta_Omega_high_mod2pi = floor(delta_Omega_high / 2.0 / pi);
 	double tf_temp;
 	if (delta_Omega_low_mod2pi != delta_Omega_high_mod2pi)
-		//若delta_Omega_low与delta_Omega_high之间存在2pi的整数倍，则选择tf_temp使得升交点赤经差为2pi的整数倍
+		//If there is an integer multiple of 2pi between delta_Omega_low and delta_Omega_high, select tf_temp so that Omega (W) is an integer multiple of 2pi
 		tf_temp = (std::max(delta_Omega_low_mod2pi, delta_Omega_high_mod2pi) * 2.0 * pi
 			- Omega_f0 + Omega_s0) / (dOmega_f - dOmega_s);
 	else if (std::min(delta_Omega_low - delta_Omega_low_mod2pi * 2.0 * pi, delta_Omega_low_mod2pi * 2.0 * pi + 2.0 * pi - delta_Omega_low)
 		< std::min(delta_Omega_high - delta_Omega_high_mod2pi * 2.0 * pi, delta_Omega_high_mod2pi * 2.0 * pi + 2.0 * pi - delta_Omega_high))
-		//与delta_Omega_high相比，delta_Omega_low更靠近2pi的整数倍
+		//Compared to delta_Omega_high, delta_Omega_low is closer to an integer multiple of 2pi
 		tf_temp = tf_low;
 	else
-		//与delta_Omega_low相比，delta_Omega_high更靠近2pi的整数倍
+		//Compared with delta_Omega_low, delta_Omega_high is closer to an integer multiple of 2pi
 		tf_temp = tf_high;
 
 	Ts = ts / Day2Second;
 	Tf = tf_temp / Day2Second;
 	return Dv_ij(debris_now, target, Ts, Tf);
 }
+
 double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& Tf, double end_epoch, int N)
 {
-	double ts = (tnow + 5.0) * Day2Second;						//转移起始时间ts设置为当前时间tnow的5天后
-	double tf_low = ts + 1.0 * 86400.0;							//tf的下界，转移起始时间ts后的1天
-	double tf_high = (tnow + 30.0) * Day2Second;					//tf的上界，当前时间tnow后的30天
+	double ts = (tnow + 5.0) * Day2Second;						//the transfer start time (ts) is set to 5 days after the current time (tnow)
+	double tf_low = ts + 1.0 * 86400.0;							//lower bound of tf, 1 day after transfer start time ts
+	double tf_high = (tnow + 30.0) * Day2Second;					//the upper bound of tf, 30 days after the current time (tnow)
 
 	
 	double t_gap = (end_epoch - tnow) / N;
-	if (t_gap < 30.0 ) tf_high = (tnow + t_gap) * Day2Second;					//tf的上界，当前时间tnow后的30天
+	if (t_gap < 30.0 ) tf_high = (tnow + t_gap) * Day2Second;					//the upper bound of tf, 30 days after the current time (tnow)
 
-	//计算转移至unvisited中碎片的速度增量估计值Estimatedv
+	//calculates an estimate of the velocity increment (Estimatedv) when moving to a unvisited debris
 	double a_s = debris_data[debris_now][2];
 	double i_s = debris_data[debris_now][4];
 	double Omega_s0 = debris_data[debris_now][5];
@@ -149,23 +150,23 @@ double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& 
 	double dOmega_s = -3.0 / 2.0 * J2 * (req / a_s) * (req / a_s) * sqrt(mu / a_s / a_s / a_s) * cos(i_s);
 	double dOmega_f = -3.0 / 2.0 * J2 * (req / a_f) * (req / a_f) * sqrt(mu / a_f / a_f / a_f) * cos(i_f);
 
-	//delta_Omega_low与delta_Omega_high表示升交点赤经差的变化范围
-	double delta_Omega_low = Omega_f0 + dOmega_f * tf_low - Omega_s0 - dOmega_s * tf_low;		//tf_low 时刻，碎片debris_now与碎片unvisited[j]升交点赤经的差值
-	double delta_Omega_high = Omega_f0 + dOmega_f * tf_high - Omega_s0 - dOmega_s * tf_high;	//tf_high时刻，碎片debris_now与碎片unvisited[j]升交点赤经的差值
+	//delta_Omega_low and delta_Omega_high indicate the lower and upper limits of the difference in right ascension of the ascending node
+	double delta_Omega_low = Omega_f0 + dOmega_f * tf_low - Omega_s0 - dOmega_s * tf_low;		//at tf_low time, the difference between Omega (W) of debris_now and debris unvisited[j] 
+	double delta_Omega_high = Omega_f0 + dOmega_f * tf_high - Omega_s0 - dOmega_s * tf_high;	//at tf_high time, the difference between Omega (W) of debris_now and debris unvisited[j] 
 
 	int delta_Omega_low_mod2pi = floor(delta_Omega_low / 2.0 / pi);
 	int delta_Omega_high_mod2pi = floor(delta_Omega_high / 2.0 / pi);
 	double tf_temp;
 	if (delta_Omega_low_mod2pi != delta_Omega_high_mod2pi)
-		//若delta_Omega_low与delta_Omega_high之间存在2pi的整数倍，则选择tf_temp使得升交点赤经差为2pi的整数倍
+		//If there is an integer multiple of 2pi between delta_Omega_low and delta_Omega_high, select tf_temp so that Omega (W) is an integer multiple of 2pi
 		tf_temp = (std::max(delta_Omega_low_mod2pi, delta_Omega_high_mod2pi) * 2.0 * pi
 			- Omega_f0 + Omega_s0) / (dOmega_f - dOmega_s);
 	//else if (std::min(delta_Omega_low - delta_Omega_low_mod2pi * 2.0 * pi, delta_Omega_low_mod2pi * 2.0 * pi + 2.0 * pi - delta_Omega_low)
 	//	< std::min(delta_Omega_high - delta_Omega_high_mod2pi * 2.0 * pi, delta_Omega_high_mod2pi * 2.0 * pi + 2.0 * pi - delta_Omega_high))
-	//	//与delta_Omega_high相比，delta_Omega_low更靠近2pi的整数倍
+	//	//Compared to delta_Omega_high, delta_Omega_low is closer to an integer multiple of 2pi
 	//	tf_temp = tf_low;
 	else
-		//与delta_Omega_low相比，delta_Omega_high更靠近2pi的整数倍
+		//Compared with delta_Omega_low, delta_Omega_high is closer to an integer multiple of 2pi
 		tf_temp = tf_high;
 
 	Ts = ts / Day2Second;
@@ -176,7 +177,7 @@ double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& 
 
 /****************************************************************************
 * Function     : Dv_ij
-* Discription  : calculate delta v for debris-to-debris transfer, from i to j, from tnow to tf;
+* Description  : calculate delta v for debris-to-debris transfer, from i to j, from tnow to tf;
 *                (based on Simple ΔV Approximation for Optimization of Debris-to-Debris Transfers,
 *                 Hong-Xin Shen and Lorenzo Casalino,
 *                 Journal of Spacecraft and Rockets 2021 58:2, 575-580)
@@ -190,28 +191,28 @@ double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& 
 ****************************************************************************/
 double Dv_ij(int i, int j, double ts, double tf)
 {
-	const double JD2S = 86400.0;													//天转秒
-	const double muEarth = mu; // 3.98600441800e+14;								//m^3/s^2地球引力常数
-	const double Re = req;// 6378137.0;												//m 地球赤道半径
+	const double JD2S = 86400.0;													//seconds in a day
+	const double muEarth = mu; // 3.98600441800e+14;								//earth's gravitational coefficient (m^3/s^2)
+	const double Re = req;// 6378137.0;												//Earth's equatorial radius (meter)
 
 	double mjd0 = ts * Day2Second;
 	double mjdf = tf * Day2Second;
-	//数据集debris_data
-	//0碎片编号 1* 2轨道半长轴(m) 3偏心率 4倾角(rad) 
-	//5升交点赤经(rad) 6近地点幅角(rad) 7真近点角(rad) 8雷达反射面积
+	//debris_data
+	//[0]: debris ID, [1]*: epoch, [2]: semi-major axis (meter), [3]: eccentricity, [4]: inclination (rad) 
+	//[5]: right ascension of the ascending node (rad), [6]: argument of perigee (rad), [7]: true anomaly (rad), [8]: radar reflection area
 	double a0 = debris_data[i][2];
 	double af = debris_data[j][2];
 	double e0 = debris_data[i][3];
 	double ef = debris_data[j][3];
 	double inc0 = debris_data[i][4];
 	double incf = debris_data[j][4];
-	//double dOmega_s = -3.0 / 2.0 * J2 * (req / a0) * (req / a0) * sqrt(mu / a0 / a0 / a0) * cos(inc0);//碎片i的升交点赤经变化率
-	//double dOmega_f = -3.0 / 2.0 * J2 * (req / af) * (req / af) * sqrt(mu / af / af / af) * cos(incf);//碎片j的升交点赤经变化率
-	// double Omega0 = debris_data[i][5] + dOmega_debris_notreal[i] * mjdf;  //tf时刻的值，0是出发碎片，f是到达碎片
+	//double dOmega_s = -3.0 / 2.0 * J2 * (req / a0) * (req / a0) * sqrt(mu / a0 / a0 / a0) * cos(inc0);//the rate of change of Omega (W) of debris i
+	//double dOmega_f = -3.0 / 2.0 * J2 * (req / af) * (req / af) * sqrt(mu / af / af / af) * cos(incf);//the rate of change of Omega (W) of debris j
+	// double Omega0 = debris_data[i][5] + dOmega_debris_notreal[i] * mjdf;  
 	// double Omegaf = debris_data[j][5] + dOmega_debris_notreal[j] * mjdf;
 
 
-	double Omega0 = debris_data[i][5] + dOmega_debris[i] * mjdf;  //tf时刻的值，0是出发碎片，f是到达碎片
+	double Omega0 = debris_data[i][5] + dOmega_debris[i] * mjdf;  //the value at time tf, 0 is the departure fragment, f is the arrival fragment
 	double Omegaf = debris_data[j][5] + dOmega_debris[j] * mjdf;
 	double omega0 = debris_data[i][6] + domega_debris[i] * mjdf;
 	double omegaf = debris_data[j][6] + domega_debris[j] * mjdf;
@@ -250,7 +251,7 @@ double Dv_ij(int i, int j, double ts, double tf)
 	double delta_x = m * sy + n * sz;
 	double dV1, dV2;
 
-	// 偏心率修正
+	//eccentricity correction
 	double delta_ex = ef * cos(omegaf) - e0 * cos(omega0);
 	double delta_ey = ef * sin(omegaf) - e0 * sin(omega0);
 	//double delta_ex = ef * cos_omega[j] - e0 * cos_omega[i];
@@ -268,7 +269,7 @@ double Dv_ij(int i, int j, double ts, double tf)
 
 /****************************************************************************
 * Function     : Dv_All
-* Discription  : calculate delta v for all transfers
+* Description  : calculate delta v for all transfers
 *                input:
 *	                R: derbris sequence ID
 *					T: time sequence (from 0, unit: Day)

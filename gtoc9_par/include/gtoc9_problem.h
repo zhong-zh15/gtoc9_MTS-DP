@@ -1,3 +1,15 @@
+/****************************************************************************
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*               539977562@qq.com
+* File: gtoc9_problem.h
+* Description: mission information storage of GTOC9
+*
+* Log:
+*Version      Date        Author           Description
+* 01        2022-03-15    Zhong Zhang       Create
+****************************************************************************/
 #pragma once
 #include <vector>
 
@@ -7,11 +19,15 @@
 
 using namespace std;
 
+/****************************************************************************
+* Function     : mp_calc
+* Description  : calculate mp and initial mass based on several velocity increment
+****************************************************************************/
 double mp_calc(const std::vector<double>& dv, double& m0);
 
 /****************************************************************************
 * Struct       : Opt_info_gtoc9
-* Discription  : Used to save sequence info
+* Description  : used to save sequence info
 ****************************************************************************/
 struct Opt_info_gtoc9
 {
@@ -24,7 +40,7 @@ struct Opt_info_gtoc9
 
 /****************************************************************************
 * Struct       : opt_struct
-* Discription  : save each mission's info
+* Description  : save each mission's info
 ****************************************************************************/
 struct opt_struct
 {

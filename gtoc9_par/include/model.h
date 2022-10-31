@@ -4,7 +4,7 @@
 				zhong-zh19@mails.tsinghua.edu.cn
 *               539977562@qq.com
 * File: model.h
-* Description: calcuation J2 perturbed transfer cost
+* Description: calculation J2 perturbed transfer cost
 * (based on Simple ¦¤V Approximation for Optimization of Debris-to-Debris Transfers,
 *  Hong-Xin Shen and Lorenzo Casalino,
 *  Journal of Spacecraft and Rockets 2021 58:2, 575-580)
@@ -29,7 +29,7 @@ extern double dOmega_debris[123];
 
 /****************************************************************************
 * Function     : domega_init
-* Discription  : calculate omega drift rate of debris
+* Description  : calculate omega drift rate of debris
 *                input:
 *					i: debris ID
 *                ouput:
@@ -39,7 +39,7 @@ double domega_init(int i);
 
 /****************************************************************************
 * Function     : dOmega_init
-* Discription  : calculate Omega drift rate of debris
+* Description  : calculate Omega drift rate of debris
 *                input:
 *					i: debris ID
 *                ouput:
@@ -49,7 +49,7 @@ double dOmega_init(int i);
 
 /****************************************************************************
 * Function     : estimate_dv
-* Discription  : estimate delta v for debris-to-debris transfer, from debris_now to target starting from tnow;
+* Description  : estimate delta v for debris-to-debris transfer, from debris_now to target starting from tnow;
 *                it will compute the suitable departure epoch (Ts) and arrival epoch (Tf)
 *                input:
 *					debris_now: debris now ID
@@ -67,7 +67,7 @@ double estimate_dv(int debris_now, int target, double tnow, double& Ts, double& 
 
 /****************************************************************************
 * Function     : Dv_ij
-* Discription  : calculate delta v for debris-to-debris transfer, from i to j, from tnow to tf;
+* Description  : calculate delta v for debris-to-debris transfer, from i to j, from tnow to tf;
 *                (based on Simple ¦¤V Approximation for Optimization of Debris-to-Debris Transfers,
 *                 Hong-Xin Shen and Lorenzo Casalino,
 *                 Journal of Spacecraft and Rockets 2021 58:2, 575-580)
@@ -83,7 +83,7 @@ double Dv_ij(int i, int j, double ts, double tf);
 
 /****************************************************************************
 * Function     : Dv_All
-* Discription  : calculate delta v for all transfers
+* Description  : calculate delta v for all transfers
 *                input:
 *	                R: derbris sequence ID
 *					T: time sequence (from 0, unit: Day)

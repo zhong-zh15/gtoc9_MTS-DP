@@ -1,15 +1,25 @@
+/****************************************************************************
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*               539977562@qq.com
+* File: gtoc9_problem.cpp
+* Description: mission information storage of GTOC9
+*
+* Log:
+*Version      Date        Author           Description
+* 01        2022-03-15    Zhong Zhang       Create
+****************************************************************************/
+
 #include "gtoc9_problem.h"
 
 #include <iostream>
 
-
 #include "model.h"
 
-
-
 /****************************************************************************
-* 函数名   : mp_calc()
-* 功  能   : 根据几次速度增量 计算mp，和初始质量
+* Function     : mp_calc
+* Description  : calculate mp and initial mass based on several velocity increment
 ****************************************************************************/
 double mp_calc(const std::vector<double>& dv, double& m0)
 {

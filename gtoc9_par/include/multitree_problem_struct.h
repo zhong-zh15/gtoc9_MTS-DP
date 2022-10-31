@@ -1,14 +1,16 @@
 /****************************************************************************
-* Copyright (C), 2020-2031 清华大学航天航空学院动力学与控制实验室
-* 作者: 张众 zhong-zh19@mails.tsinghua.edu.cn
-*            539977562@qq.com
-* 文件名: problem_struct.h
-* 内容简述：关于解结构的类
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*                 539977562@qq.com
+* File: problem_struct.h
+* Description: classes on the structure of the solution
 *
-* 文件历史：
-* 版本号     日期         作者       说明
-* 01       2021-05-12    张众      创建文件
+* Log:
+*Version      Date        Author           Description
+* 01        2021-05-12    Zhong Zhang       Create
 ****************************************************************************/
+
 #ifndef Problem_struct
 #define Problem_struct
 
@@ -18,16 +20,16 @@
 #include "Constant.h"
 
 /****************************************************************************
-* 结构体名 : Node_char
-* 功  能   : 记录一个节点关于问题的信息
+* Class        : Node_char
+* Description  : record a node's information about the problem
 ****************************************************************************/
 class Node_problem
 {
 public:
-	//double ts_;        //从上一节点出发的时刻
-	//double tf_;        //到达下一节点的时刻
-	int next_debris_;    //到达的空间碎片编号
-	//double dv_;          //此次全部转移的速度增量
+	//double ts_;        //The initial moment from the previous node
+	//double tf_;        //time to reach the next node
+	int next_debris_;    //Arrived space debris ID
+	//double dv_;          //The speed increment for this entire transfer
 
 	Node_problem()
 	{
@@ -36,19 +38,17 @@ public:
 		next_debris_ = -1;
 		//dv_ = 0.0;
 	}
-	void operator =(const Node_problem& result);    //等号重载
+	void operator =(const Node_problem& result);    //Equals overloading
 };
 
-
-
 /****************************************************************************
-* 结构体名 : Optimization_index
-* 功  能   : 优化指标的结构体
+* Class        : Optimization_index
+* Description  : class of optimization indicators
 ****************************************************************************/
 class Optimization_index
 {
 public:
-	int removal_num_;   //空间碎片清理个数
+	int removal_num_;   //Number of space debris cleaned up
 	double cost_;       //cost function
 	int expand_mission_ID;
 	double t_mission[TreeNum][2];
@@ -93,30 +93,29 @@ public:
 };
 
 /****************************************************************************
-* 结构体名 : Solution_one
-* 功  能   : 单个卫星的结果
+* Class        : Solution_one
+* Description  : results for a single satellite
 ****************************************************************************/
 class Solution_one
 {
 public:
-	std::vector<int>    debris_sequence_;  //到访序列  N
-	std::vector<double> t_sequence_;       //时间序列  一共2（N-1）个优化变量，包括初始时刻，以及tstf
-	std::vector<double> dv_sequence_;      //每次所需速度增量序列 N-1
+	std::vector<int>    debris_sequence_;  //visiting sequence    N
+	std::vector<double> t_sequence_;       //time sequence, a total of 2 (N-1) optimization variables, including the initial moment, and ts,tf
+	std::vector<double> dv_sequence_;      //equence of each desired velocity increment    N-1
 
-	void operator =(const Solution_one& a); //符号重载
+	void operator =(const Solution_one& a); //symbol overloading
 };
 
-
 /****************************************************************************
-* 结构体名 : Solution
-* 功  能   : 所有结果
+* Class        : Solution
+* Description  : results for all solution
 ****************************************************************************/
 class Solution
 {
 public:
-	Solution_one  solution_[TreeNum];      //所有的卫星的结果
-	double cost_;                      //总的速度增量
-	int total_removal_num_;                //总清理个数
+	Solution_one  solution_[TreeNum];      //All satellite results
+	double cost_;                      //total speed increment
+	int total_removal_num_;                //total number of cleans
 
 	Solution():cost_(0.0), total_removal_num_(0){}
 	
@@ -126,11 +125,8 @@ public:
 			solution_[i] = a.solution_[i];	
 	}
 	
-	void operator =(const Solution& a);   //符号重载
+	void operator =(const Solution& a);   //symbol overloading
 };
-
-
-
 
 #endif
 

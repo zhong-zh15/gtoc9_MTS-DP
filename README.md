@@ -1,3 +1,4 @@
+## MultiTree Search
 MultiTree Search is Open Source Algorithm for Multi-Spacecraft Successive Rendevous Mission. It was created in the 11th edition of the China Trajectory Optimization Competition (CTOC11) and then improved and tested for the 9th edition of the Global Trajectory Optimization Competition (GTOC9).
 
 MultiTree Search is a natural extension of the original tree search framework, aiming to store with minimum space complexity, where the traditional tree search algorithm can be easily developed. This version combines the classic beam search with local search for better performance in GTOC9, which can be regarded as a variant multi-travel-salesman problem. We also apply dynamic programming to obtain the optimal rendevous time sequence (a continuous variable optimization problem). As far as we know, this is the first time we can give a theory-proof global optimal result in time optimization under a given rendevous sequence.
@@ -8,10 +9,9 @@ If you use this code or parts of this code for results presented in a scientific
 
 ## Papers based on Multi-Tree Search
 
-* [Multi-Spacecraft Successive Rendevous: a Multi-Tree Search Embedded Dynamic Programming Algorithm
-](https://doi.org/10.1038/s41550-020-01226-7) - *Journal of Guidance, Control, and Dynamics*, 2022 (Submitted)
+* [Global Trajectory Optimization of Multi-Spacecraft Successive  Rendezvous Using Multi-Tree Search] - *Journal of Guidance, Control, and Dynamics*, 2022 (Submitted)
 * [Multi-Tree Search for Multi-Satellite Responsiveness Scheduling
-Considering Orbital Maneuvering](https://doi.org/10.1093/mnras/stz633) - *IEEE TRANSACTIONS ON AEROSPACE AND ELECTRONIC SYSTEMS*, 2022
+Considering Orbital Maneuvering](https://ieeexplore.ieee.org/abstract/document/9623484) - *IEEE TRANSACTIONS ON AEROSPACE AND ELECTRONIC SYSTEMS*, 2022
 
 ## Getting Started
 
@@ -55,7 +55,7 @@ git clone --recursive https://github.com/zhong-zh15/gtoc9_MTS-DP
 
 * **Zhong Zhang** - *Initial work* - [Zhong Zhang, Tsinghua, LAD](https://github.com/zhong-zh15)
 * **Nan Zhang** - *Discussion and ideas verification*
-* **Zherui Chen** - *Discussion and ideas verification*
+* **Zherui Chen** - *Discussion and improving the readability of the code*
 
 <!---
 See also the list of [contributors](AUTHORS.md) who participated in this project.

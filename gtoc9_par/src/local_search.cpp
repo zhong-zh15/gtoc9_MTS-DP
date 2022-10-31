@@ -1,10 +1,29 @@
+/****************************************************************************
+* Copyright (C), 2020-2031 Tsinghua University, School of Aerospace Engineering, LAD
+* Author: Zhong Zhang
+				zhong-zh19@mails.tsinghua.edu.cn
+*               539977562@qq.com
+* File: local_search.cpp
+* Description: call the optimization function to find the optimal solution
+*
+* Log:
+*Version      Date        Author           Description
+* 01        2022-03-15    Zhong Zhang       Create
+****************************************************************************/
+
 #include "local_search.h"
 
 #include <numeric>
 
-
-//split string to int
-//intput: current_string, cut_string, output: int_vector
+/****************************************************************************
+* Function     : splitStr
+* Description  : split string to int
+*                input:
+*					current_string: a given string
+*					cut: cutted string
+*                ouput:
+*					arr: int vector
+****************************************************************************/
 void splitStr(const string& str, vector<int>& arr, const string& cut)
 {
 	// str: current_string
@@ -23,6 +42,14 @@ void splitStr(const string& str, vector<int>& arr, const string& cut)
 		arr.push_back(stoi(str.substr(pos1)));
 }
 
+/****************************************************************************
+* Function     : string2sequence
+* Description  : return all mission debris sequences of a given string
+*                input:
+*					x: a given string
+*                ouput:
+*					return: all mission debris sequences of a given string
+****************************************************************************/
 std::vector<std::vector<int>> string2sequence(const string& x)
 {
 	vector<vector<int>> sequence;
@@ -48,6 +75,15 @@ std::vector<std::vector<int>> string2sequence(const string& x)
 	return sequence;
 }
 
+/****************************************************************************
+* Function     : string2sequence
+* Description  : return single mission debris sequence of a given string and the mission id
+*                input:
+*					x: a given string
+*					mission_id: mission id
+*                ouput:
+*					return: single mission debris sequence of a given string and the mission id
+****************************************************************************/
 std::vector<int> string2sequence(const string& x, int& mission_id)
 {
 	vector<int> sequence;
@@ -72,6 +108,14 @@ std::vector<int> string2sequence(const string& x, int& mission_id)
 	return sequence;
 }
 
+/****************************************************************************
+* Function     : sequence2string
+* Description  : tranfer a given all mission sequence to a string
+*                input:
+*					x: a given all mission sequence
+*                ouput:
+*					return: a string
+****************************************************************************/
 string sequence2string(const std::vector<std::vector<int>>& x)
 {
 	string string_sequence;
@@ -89,6 +133,15 @@ string sequence2string(const std::vector<std::vector<int>>& x)
 	return string_sequence;
 }
 
+/****************************************************************************
+* Function     : sequence2string
+* Description  : tranfer a given single mission sequence and the mission ID to a string
+*                input:
+*					x: a given single mission sequence
+*					mission: mission ID
+*                ouput:
+*					return: a string
+****************************************************************************/
 string sequence2string(const std::vector<int>& x, int mission)
 {
 	string string_sequence;
@@ -106,7 +159,21 @@ string sequence2string(const std::vector<int>& x, int mission)
 	return string_sequence;
 }
 
-
+/****************************************************************************
+* Function     : local_search_1layer
+* Description  : local search algorithm for gtoc9 problem called in multitree_beam.cpp-Localsearch function
+*                compute the best solution for each mission sequence in its neighborhood
+*                input:
+*					neighborhood: a database for all computed mission neighborhoods
+*					X_all: all mission sequences
+*                   a_all: the corrsponding info (time sequence and delta v sequence) to a_all
+*					opt_min: the maximum cost in X_all (a parameter used in DP to accelerate calculation)
+*                ouput:
+*				    X_all: the best solution for each mission sequence in its neighborhood
+*                   a_all: the corrsponding info (time sequence and delta v sequence) to a_all
+*					X_all_end: the local optimal sequence (if one sequence cannot find a better solution in its neighborhood, move it to X_all_end)
+*                   a_all_end: the corrsponding info (time sequence and delta v sequence) to X_all_end
+****************************************************************************/
 void local_search_1layer(unordered_map<string, double> &neighborhood, vector<vector<vector<int>>> &X_all, vector<opt_struct> &a_all, vector<vector<vector<int>>> &X_all_end, vector<opt_struct> &a_all_end, double opt_min)
 {
 	vector<vector<vector<int>>> X_all_next;
@@ -307,6 +374,16 @@ void local_search_1layer(unordered_map<string, double> &neighborhood, vector<vec
 	a_all_next.clear();
 }
 
+/****************************************************************************
+* Function     : localsearch_gtoc9_MTS_pool
+* Description  : compute the neighborhood for single mission sequence
+*                input:
+*					X: mission sequence
+*                   f_data: the corrsponding info (time sequence and delta v sequence) to X
+*					neighbor:  a database for all computed mission neighborhoods
+*                ouput:
+*				    return value: the neighborhood for each single mission sequence (in string)
+****************************************************************************/
 vector<string> localsearch_gtoc9_MTS_pool(std::vector<vector<int>>& X, opt_struct& f_data, vector<each_mis_neighborhood> &neighbor)
 {
 
@@ -478,6 +555,16 @@ vector<string> localsearch_gtoc9_MTS_pool(std::vector<vector<int>>& X, opt_struc
 	return neighborhood_single_mission;
 }
 
+/****************************************************************************
+* Function     : localsearch_gtoc9_MTS_changetime_pool
+* Description  :
+*                compute the neighborhood for all mission sequence
+*                input:
+*					X: mission sequence
+*                   f_data: the corrsponding info (time sequence and delta v sequence) to X
+*                ouput:
+*				    return value: the neighborhood for all mission sequence (in string)
+****************************************************************************/
 vector<string> localsearch_gtoc9_MTS_changetime_pool(std::vector<vector<int>>& X, opt_struct& f_data)
 {
 	vector<string> local_field;
@@ -671,9 +758,3 @@ vector<string> localsearch_gtoc9_MTS_changetime_pool(std::vector<vector<int>>& X
 
 	return local_field;
 }
-
-
-
-
-
-
