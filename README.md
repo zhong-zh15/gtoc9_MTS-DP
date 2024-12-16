@@ -9,7 +9,7 @@ If you use this code or parts of this code for results presented in a scientific
 
 ## Papers based on Multi-Tree Search
 
-* [Global Trajectory Optimization of Multi-Spacecraft Successive  Rendezvous Using Multi-Tree Search] - *Journal of Guidance, Control, and Dynamics*, 2022 (Submitted)
+* [Global Trajectory Optimization of Multi-Spacecraft Successive  Rendezvous Using Multi-Tree Search](https://arc.aiaa.org/doi/10.2514/1.G007764) - *Journal of Guidance, Control, and Dynamics*, 2024
 * [Multi-Tree Search for Multi-Satellite Responsiveness Scheduling
 Considering Orbital Maneuvering](https://ieeexplore.ieee.org/abstract/document/9623484) - *IEEE TRANSACTIONS ON AEROSPACE AND ELECTRONIC SYSTEMS*, 2022
 
